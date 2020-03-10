@@ -88,12 +88,100 @@ public class Main {
 		
 		System.out.println(arrayFinal);
 		
+		int tamanioArrayLetras = arrayFinal.size()/6;
+		
+		i=0;
+		j=0;
+		int k=0;
+		int [] arrayCodigoLetra = new int [6];
+		char [] arrayLetras = new char [tamanioArrayLetras];
+		
+		while(i+6<=arrayFinal.size()) {
+			
+			for(j=0 ; j<6; j++) {
+				arrayCodigoLetra[j] = arrayFinal.get(i+j);
+				System.out.print(arrayCodigoLetra[j]);
+				}
+			
+			arrayLetras[k] = traducirLetra(arrayCodigoLetra, alf2);
+			System.out.println();
+			System.out.println("LETRA: " + arrayLetras[k]);
+			k++;
+			
+			System.out.println();
+			i = i+6;
+		}
+		
+		
+		for(int q=0 ; q<arrayLetras.length ; q++)
+		{
+			System.out.print(arrayLetras[q]);
+		}
+		
 		
 	}
 	
-	public char traducirLetra(int [] letraCod, char alf2) {
+	public static char traducirLetra(int [] codigoLetra, char [] alf2) {
 		
-		return (Character) null;
+		int sumaCodigo = 0;
+		int potencia = 0;
+		
+		for(int i=codigoLetra.length-1 ; i>=0 ; i--)
+		{
+			if(codigoLetra[i] == 1)
+			{
+				System.out.println("SUMOOOOOOOOOOOOOOOOOOOOOO");
+				//int potenciaDos = 2^potencia;
+				//System.out.println("POTENCIA " + potencia);
+				sumaCodigo = sumaCodigo + calcularPotencia(potencia);
+				System.out.println("POSICION: " + sumaCodigo);
+			}
+			potencia++;
+		}
+		
+		return alf2[sumaCodigo];
 	}
-
+	
+	public static int calcularPotencia(int potencia)
+	{
+		int potenciaDos = 1;
+		
+		if(potencia != 0)
+		{
+			for(int i=0 ; i<potencia ; i++)
+			{
+				potenciaDos = potenciaDos * 2;
+			}
+			return potenciaDos;
+		}
+		
+		return potenciaDos;
+	}
+	
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
