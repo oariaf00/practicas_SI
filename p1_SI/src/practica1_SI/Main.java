@@ -5,22 +5,25 @@ import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 
 import javax.swing.JFileChooser;
 
 public class Main {
 
 	public static void main(String[] args) {
+		//Apertura del archivo txt
 		String texto = importarTexto();
 		
+		//Pasamos el texto a un array de char caracter a caracter
 		char[] arrayTexto = texto.toCharArray();
 		
 		ej1(arrayTexto);
 		ej2(arrayTexto);
 	}
 	
-	public static  String importarTexto()
-	{
+	public static  String importarTexto(){
 		File archivo = null;
 		FileReader fr = null;
 		BufferedReader br = null;
@@ -29,6 +32,8 @@ public class Main {
 		try {
 			/* Apertura del fichero y creacion de BufferedReader para poder
 			hacer una lectura comoda (disponer del metodo readLine()).*/
+			
+			//El archivo meterlo en la carpeta res del proyecto
 			final JFileChooser fc= new JFileChooser("/res");
 			int returnVal= fc.showOpenDialog(null);
 			archivo= fc.getSelectedFile();
@@ -69,6 +74,7 @@ public class Main {
 	public static void ej1(char[] arrayTexto){
 		double contador = 0; //Numero de veces de 'd'
 		
+		//Escaneamos el array y contamos el numero de caracteres de 'd' que hay
 		for(int i=0 ; i<arrayTexto.length ; i++){
 			if(arrayTexto[i] == 'd'){
 				contador++;
@@ -81,107 +87,112 @@ public class Main {
 	}
 	
 	public static void ej2(char[] arrayTexto){
-		ArrayList<Character> arrayLetras = new ArrayList<Character>();
+		
+		//Array con los caracteres sin repetir
+		ArrayList<Character> arraySimbolosUnicos = new ArrayList<Character>();
+		
+		//Array que guarda las frecuencias de cada caracter en la misma posicion
 		ArrayList<Integer> arrayFrecuencia = new ArrayList<Integer>();
 		
 		/*
-		 * En este bucle añadimos todos los símbolos que hay en el texto sin repetir
+		 * En este bucle añadimos todos los símbolos distintos que hay en el texto 
 		 */
 		for(int i=0 ; i<arrayTexto.length ; i++){
-			if(!existeLetra(arrayTexto[i], arrayLetras, arrayFrecuencia)){
-				arrayLetras.add(arrayTexto[i]);
+			if(!existeLetra(arrayTexto[i], arraySimbolosUnicos)){
+				arraySimbolosUnicos.add(arrayTexto[i]);
 			}
-			
 		}
 		
 		/*
-		 * Inicializamos el array de las frecuencias
+		 * Inicializamos el array con las frecuencias
 		 */
-		double [] arrayFrecu = new double[arrayLetras.size()];
-		for(int x=0; x<arrayFrecu.length; x++) {
-			arrayFrecu[x]=0;
+		
+		for(int i=0 ; i<arraySimbolosUnicos.size() ; i++){
+			arrayFrecuencia.add(0);
 		}
 		
 		/*
 		 * Calculamos la frecuencia de cada símbolo
 		 */
 		for(int j=0; j<arrayTexto.length; j++) {
-			for(int m=0; m<arrayLetras.size(); m++) {
-				if(arrayTexto[j] == arrayLetras.get(m)) {
-					arrayFrecu[m]++;
+			for(int m=0; m<arraySimbolosUnicos.size(); m++) {
+				if(arrayTexto[j] == arraySimbolosUnicos.get(m)) {
+					int tmp= arrayFrecuencia.get(m);
+					arrayFrecuencia.set(m, tmp+1);
 				}
 			}
 		}
 		
 		/*
-		 * Creamos un array para guardar las 4 mayores frecuencias y luego sacar sus probabilidades
+		 * Creamos un array para guardar las frecuencias de mayor a menor y luego sacar sus probabilidades
 		 */
-		double[] arrayOrdenado= new double[arrayFrecu.length];
-		int[] maxFrecuencias= new int[4];
 		
-		for(int i=0;i<arrayFrecu.length;i++) {
-			arrayOrdenado[i]=arrayFrecu[i];
+		ArrayList<Double> frecuenciasOrdenadas= new ArrayList<Double>();
+		
+		for(int i=0;i<arrayFrecuencia.size();i++) {
+			//Copiamos los elementos en otro ArrayList para ordenar las frecuencias
+			frecuenciasOrdenadas.add((double) arrayFrecuencia.get(i));
 		}
 		
-		Arrays.sort(arrayOrdenado);
+		ArrayList<Character> simbolosOrdenados= new ArrayList<Character>();
+		
+		//Ordenamos el array de mayor a menor 
+		Comparator<Double> comparador = Collections.reverseOrder();
+		Collections.sort(frecuenciasOrdenadas, comparador);
 		
 		/*
-		 * Como el array está ordenado de menor a mayor cogemos las posiciones finales
+		 * Ahora recorremos por orden las frecuencias máximas y vamos mirando a qué símbolo corresponden
+		 * guardándolos en otro array para luego imprimirlos
 		 */
 		
-		maxFrecuencias[0]= (int) arrayOrdenado[arrayOrdenado.length-1];
-		maxFrecuencias[1]= (int) arrayOrdenado[arrayOrdenado.length-2];
-		maxFrecuencias[2]= (int) arrayOrdenado[arrayOrdenado.length-3];
-		maxFrecuencias[3]= (int) arrayOrdenado[arrayOrdenado.length-4];
-		
-		/*
-		 * Buscamos la equivalencia de la letra a la que corresponde esa frecuencia
-		 * y la almacenamos en el array
-		 */
-		
-		char[] simbolos= new char[4];
-		
-		for(int j=0; j<4; j++) {
-			for(int m=0; m<arrayFrecu.length; m++) {
-				if(maxFrecuencias[j]==arrayFrecu[m]) {
-					simbolos[j]= arrayLetras.get(m);
-					break;
+		for(int i=0;i<frecuenciasOrdenadas.size();i++) {
+			for(int j=0;j<arrayFrecuencia.size();j++) {
+				if(frecuenciasOrdenadas.get(i)==(double) arrayFrecuencia.get(j)) {
+					if(!existeLetra(arraySimbolosUnicos.get(j), simbolosOrdenados)) {
+						simbolosOrdenados.add(arraySimbolosUnicos.get(j));
+						break;
+					}
 				}
 			}
 		}
 		
-		double [] probabilidad = new double [arrayFrecu.length];
-		
-		System.out.println();
-		
-		for(int i=0; i<arrayFrecu.length; i++) {
-			probabilidad[i] = arrayFrecu[i]/arrayTexto.length;
-		}
-		
 		/*
-		 * Hacemos lo mismo que hicimos con las frecuencias pero con las probabilidades
+		 * Repetimos el proceso anterior para hallar las probabilidades de cada símbolo
 		 */
 		
-		Arrays.sort(probabilidad);
+		ArrayList<Double> probabilidad = new ArrayList<Double>();
 		
-		double[] maxProb= new double[4];
+		System.out.println("--------------------------------------------------");
 		
-		maxProb[0]= probabilidad[probabilidad.length-1];
-		maxProb[1]= probabilidad[probabilidad.length-2];
-		maxProb[2]= probabilidad[probabilidad.length-3];
-		maxProb[3]= probabilidad[probabilidad.length-4];
-		
-		System.out.println("Simbolos con mayor probabilidad:");
-		for(int i=0;i<simbolos.length;i++){
-			System.out.println("'"+simbolos[i]+"': "+maxFrecuencias[i]+" "+maxProb[i]+".");
+		for(int i=0; i<arrayFrecuencia.size(); i++) {
+			probabilidad.add((double) (arrayFrecuencia.get(i)/(double)arrayTexto.length));
 		}
+		
+		ArrayList<Double> probabilidadesOrdenadas= new ArrayList<Double>();
+		
+		for(int i=probabilidad.size()-1;i>=0;i--) {
+			probabilidadesOrdenadas.add(probabilidad.get(i));
+		}
+		
+		//Ordenamos los arrays de Mayor a menor para imprimir los valores
+		Collections.sort(probabilidadesOrdenadas, comparador);
+		
+		System.out.println("Simbolos con mayor frecuencia y su probabilidad:");
+		
+		//Si queremos que imprima X elementos modificamos los valores del bucle
+		for(int i=0;i<4;i++) {
+			System.out.print("'"+simbolosOrdenados.get(i)+"' -> ");
+			System.out.print("Frecuencia: "+frecuenciasOrdenadas.get(i)+" | ");
+			System.out.println("Probabilidad: "+probabilidadesOrdenadas.get(i));
+		}
+		
 
 	}
 
-	public static boolean existeLetra(char letra, ArrayList<Character> arrayLetras, ArrayList<Integer> arrayFrecuencia){
+	public static boolean existeLetra(char letra, ArrayList<Character> arraySimbolosUnicos){
 		
-		for(int i=0 ; i<arrayLetras.size() ; i++){
-			if(letra == arrayLetras.get(i)){
+		for(int i=0 ; i<arraySimbolosUnicos.size() ; i++){
+			if(letra== arraySimbolosUnicos.get(i)){
 				return true;
 			}
 		}
