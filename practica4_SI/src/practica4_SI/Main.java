@@ -41,6 +41,10 @@ public class Main {
 	static int d=5;
 	static int capacidadCorrectora=2;
 	
+	//Matriz binaria y limpia(despues de quitar los q tienen peso > 2)
+	static int [][] matrizBinaria;
+	static int [][] matrizBinariaLimpia;
+	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		/*
@@ -52,6 +56,8 @@ public class Main {
 		
 		obtenerCodigoFinal();
 		
+		
+		
 		//System.out.println("Conjuntos a decodificar: ");
 		/*for(int k=0;k<codigoFinal.size();k++) {
 			if(k%15==0&&k!=0) {
@@ -62,7 +68,8 @@ public class Main {
 		
 		
 	}
-
+	
+	
 	/**
 	 * Método que devuelve la longitud de la palabra de la fuente
 	 * @return
@@ -98,15 +105,70 @@ public class Main {
 			//Hallamos el síndrome del bloque extraído
 			int[][] sindrome= multiplica(arrayCod, H);
 			
-			System.out.println("Síndrome: ");
+			/*System.out.println("Síndrome: ");
 			for(j=0 ; j<sindrome.length; j++) {
 				for(int l=0;l<sindrome[0].length;l++) {
 					System.out.print(sindrome[j][l]+" ");
 				}
 				System.out.println();
+			}*/
+			
+			System.out.println("Binario: ");
+			for(j=0 ; j<matrizBinaria.length; j++) {
+				for(int l=0;l<matrizBinaria[0].length;l++) {
+					System.out.print(matrizBinaria[j][l]+" ");
+				}
+				System.out.println();
 			}
 			
 			i = i+15;
+		}
+		
+		int aux, numFilas;
+		numFilas=0;
+		
+		for(j=0 ; j<matrizBinaria.length; j++) {
+			aux=0;
+			for(int l=0;l<matrizBinaria[0].length;l++) {
+				if(matrizBinaria[j][l]==1) {
+					aux++;
+				}
+						
+			}
+			if(aux<3) {
+				numFilas++;
+			}
+		}
+		System.out.println("numero de filas "+numFilas);
+		matrizBinariaLimpia = new int [numFilas][matrizBinaria[0].length];
+		int filaLimpia;
+		filaLimpia = 0;
+		
+		for(j=0 ; j<matrizBinaria.length; j++) {
+			aux=0;
+			for(int l=0;l<matrizBinaria[j].length;l++) {
+				if(matrizBinaria[j][l]==1) {
+					aux++;
+				}
+						
+			}
+			if(aux<3) {
+				System.out.println("matriz binaria. length "+ matrizBinaria.length);
+				for(int l=0;l<matrizBinaria[j].length;l++) {
+					matrizBinariaLimpia[filaLimpia][l] = matrizBinaria[j][l];
+				}
+				filaLimpia++;
+			}
+		}
+		
+		System.out.println("Binario Limpio: ");
+		for(j=0 ; j<matrizBinariaLimpia.length; j++) {
+			System.out.println("iteracio numero "+j);
+			for(int l=0;l<matrizBinariaLimpia[j].length;l++) {
+				System.out.println("l "+matrizBinariaLimpia[0].length);
+				System.out.print(matrizBinariaLimpia[j][l]+" ");
+			}
+			System.out.println();
 		}
 		
 		/*
@@ -185,6 +247,8 @@ public class Main {
 	       int o= arrayCod.length;
 	       // nueva matriz 
 	       int [][] C= new int [H.length][arrayCod[0].length];
+	       
+	       matrizBinaria = new int [H.length][arrayCod[0].length];
 	       // se comprueba si las matrices se pueden multiplicar
 	       if (m==o){
 	         for (int i=0; i<C.length;i++){
@@ -193,12 +257,22 @@ public class Main {
 	              int a=0;
 	              for(int k=0;k<o;k++){
 	                  a=a+H[i][k]*arrayCod[k][j];
-	                }
-	           C[i][j]=a;     
+	              }
+	              C[i][j]=a;
+	              matrizBinaria[i][j] = a%2;
 	            }
 
-	            }
-	        }
+	         }
+	       }
+	       
+	       /*for (int x=0; x < matrizBinaria.length; x++) {
+	    	   for (int y=0; y < matrizBinaria[x].length; y++) {
+	    		   System.out.print(matrizBinaria[x][y]+" ");
+	    	   }
+	    	   System.out.println();
+	       }*/
+	       
+	       
 	       /**
 	        *  si no se cumple la condición se retorna una matriz vacía
 	        */
