@@ -52,7 +52,7 @@ public class Main {
 		
 		obtenerCodigoFinal();
 		
-		System.out.println("Conjuntos a decodificar: ");
+		//System.out.println("Conjuntos a decodificar: ");
 		/*for(int k=0;k<codigoFinal.size();k++) {
 			if(k%15==0&&k!=0) {
 				System.out.println();
@@ -96,12 +96,12 @@ public class Main {
 			}
 			
 			//Hallamos el síndrome del bloque extraído
-			int[][] sindrome= multiplica(H, arrayCod);
+			int[][] sindrome= multiplica(arrayCod, H);
 			
 			System.out.println("Síndrome: ");
 			for(j=0 ; j<sindrome.length; j++) {
 				for(int l=0;l<sindrome[0].length;l++) {
-					System.out.print(sindrome[j][l]+"\t");
+					System.out.print(sindrome[j][l]+" ");
 				}
 				System.out.println();
 			}
@@ -128,20 +128,48 @@ public class Main {
 	
 	public static int[][] matrizTraspuestaYNegativa(int[][] original) {
 		int[][] traspuesta= new int[original[0].length][original.length];
+		
 		for (int x = 0; x < original.length; x++){
 			for (int y = 0; y < original[x].length; y++){
 				traspuesta[y][x] = original[x][y];
 			}
 		}
 		
-//		for(int k=0;k<traspuesta.length;k++) {
-//			for(int l=0;l<traspuesta[0].length;l++) {
-//				System.out.print(traspuesta[k][l]+"\t");
-//			}
-//			System.out.println();
-//		}
+		int [][] identidad= new int[traspuesta.length][traspuesta.length];
 		
-		return traspuesta;
+		for (int x = 0; x < identidad.length; x++){
+			for (int y = 0; y < identidad.length; y++){
+				if(x==y) {
+					identidad[x][y]=1;
+				}
+				else {
+					identidad[x][y]=0;
+				}
+			}
+		}
+		
+		int[][] H= new int[traspuesta.length][identidad[0].length+traspuesta[0].length];
+		
+		for(int i=0;i<identidad.length;i++) {
+			for(int j=0;j<identidad[0].length;j++) {
+				H[i][j]=identidad[i][j];
+			}
+		}
+		
+		for(int i=0;i<traspuesta.length;i++) {
+			for(int j=0;j<traspuesta[0].length;j++) {
+				H[i][j+identidad[0].length]=traspuesta[i][j];
+			}
+		}
+		
+		for(int k=0;k<H.length;k++) {
+			for(int l=0;l<H[0].length;l++) {
+				System.out.print(H[k][l]+" ");
+			}
+			System.out.println();
+		}
+		
+		return H;
 	}
 	
 	/**
@@ -150,23 +178,21 @@ public class Main {
 	 * @param B
 	 * @return
 	 */
-	public static int[][] multiplica (int [][] A, int [][] B){
+	public static int[][] multiplica (int [][] arrayCod, int [][] H){
 	       // filas de la matriz A
-	       int m= A.length;
-	       System.out.println(m);
+	       int m= H[0].length;
 	       // columnas de la matriz B
-	       int o= B[0].length;
-	       System.out.println(o);
+	       int o= arrayCod.length;
 	       // nueva matriz 
-	       int [][] C= new int [m][o];
+	       int [][] C= new int [H.length][arrayCod[0].length];
 	       // se comprueba si las matrices se pueden multiplicar
 	       if (m==o){
-	         for (int i=0; i<m;i++){
-	            for (int j=0; j<o;j++){
+	         for (int i=0; i<C.length;i++){
+	            for (int j=0; j<C[0].length;j++){
 	             //aqui se multiplica la matriz
 	              int a=0;
 	              for(int k=0;k<o;k++){
-	                  a=a+A[i][k]*B[k][j];
+	                  a=a+H[i][k]*arrayCod[k][j];
 	                }
 	           C[i][j]=a;     
 	            }
