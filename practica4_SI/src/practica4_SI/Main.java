@@ -44,6 +44,8 @@ public class Main {
 	//Matriz binaria y limpia(despues de quitar los q tienen peso > 2)
 	static int [][] matrizBinaria;
 	static int [][] matrizBinariaLimpia;
+	static ArrayList<Integer> matrizBinariaAL = new ArrayList<Integer>();
+	static ArrayList<Integer> matrizBinariaLimpiaAL = new ArrayList<Integer>();
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
@@ -104,73 +106,55 @@ public class Main {
 			
 			//Hallamos el síndrome del bloque extraído
 			int[][] sindrome= multiplica(arrayCod, H);
-			
-			/*System.out.println("Síndrome: ");
+		
+			System.out.println("Síndrome: ");
 			for(j=0 ; j<sindrome.length; j++) {
 				for(int l=0;l<sindrome[0].length;l++) {
 					System.out.print(sindrome[j][l]+" ");
 				}
 				System.out.println();
-			}*/
-			
-			System.out.println("Binario: ");
-			for(j=0 ; j<matrizBinaria.length; j++) {
-				for(int l=0;l<matrizBinaria[0].length;l++) {
-					System.out.print(matrizBinaria[j][l]+" ");
-				}
-				System.out.println();
 			}
+			
 			
 			i = i+15;
 		}
 		
-		int aux, numFilas;
-		numFilas=0;
+		System.out.println("AL:");
+		for (int k = 0; k < matrizBinariaAL.size(); k++) {
+			System.out.print(matrizBinariaAL.get(k)+" ");
+		}
 		
-		for(j=0 ; j<matrizBinaria.length; j++) {
+		int num, numSindromes, aux;
+		num=0;
+		
+		numSindromes = matrizBinariaAL.size()/9;
+		
+		System.out.println();
+		System.out.println("Numero de sindromes "+numSindromes+"  num sindromes*9 "+matrizBinariaAL.size());
+		
+		for(int q=0; q<numSindromes; q++) {
 			aux=0;
-			for(int l=0;l<matrizBinaria[0].length;l++) {
-				if(matrizBinaria[j][l]==1) {
+			
+			for(int p=0; p<9; p++) {
+				if(matrizBinariaAL.get((q*9)+p)==1) {
 					aux++;
 				}
-						
 			}
+			
 			if(aux<3) {
-				numFilas++;
-			}
-		}
-		System.out.println("numero de filas "+numFilas);
-		matrizBinariaLimpia = new int [numFilas][matrizBinaria[0].length];
-		int filaLimpia;
-		filaLimpia = 0;
-		
-		for(j=0 ; j<matrizBinaria.length; j++) {
-			aux=0;
-			for(int l=0;l<matrizBinaria[j].length;l++) {
-				if(matrizBinaria[j][l]==1) {
-					aux++;
+				for(int t=0; t<9; t++) {
+					matrizBinariaLimpiaAL.add(matrizBinariaAL.get((q*9)+t));
 				}
-						
 			}
-			if(aux<3) {
-				System.out.println("matriz binaria. length "+ matrizBinaria.length);
-				for(int l=0;l<matrizBinaria[j].length;l++) {
-					matrizBinariaLimpia[filaLimpia][l] = matrizBinaria[j][l];
-				}
-				filaLimpia++;
-			}
-		}
+			
+		}	
 		
-		System.out.println("Binario Limpio: ");
-		for(j=0 ; j<matrizBinariaLimpia.length; j++) {
-			System.out.println("iteracio numero "+j);
-			for(int l=0;l<matrizBinariaLimpia[j].length;l++) {
-				System.out.println("l "+matrizBinariaLimpia[0].length);
-				System.out.print(matrizBinariaLimpia[j][l]+" ");
-			}
-			System.out.println();
+		System.out.println("AL limpita:");
+		for (int k = 0; k < matrizBinariaLimpiaAL.size(); k++) {
+			System.out.print(matrizBinariaLimpiaAL.get(k)+" ");
 		}
-		
+		System.out.println();
+		System.out.println("matriz limpia. get size "+matrizBinariaLimpiaAL.size()+" division entre 9: "+matrizBinariaLimpiaAL.size()/9);
 		/*
 		 * En las siguientes líneas comprobamos que no haya cola dentro del código que nos han dado para
 		 * decodificar. De ser así cogemos los dígitos que constituyan la cola y los añadimos al arraylist
@@ -259,18 +243,14 @@ public class Main {
 	                  a=a+H[i][k]*arrayCod[k][j];
 	              }
 	              C[i][j]=a;
-	              matrizBinaria[i][j] = a%2;
+	              //Añadimos el contenido al arraylist de sindromes
+	              matrizBinariaAL.add(a%2);
 	            }
 
 	         }
 	       }
 	       
-	       /*for (int x=0; x < matrizBinaria.length; x++) {
-	    	   for (int y=0; y < matrizBinaria[x].length; y++) {
-	    		   System.out.print(matrizBinaria[x][y]+" ");
-	    	   }
-	    	   System.out.println();
-	       }*/
+	       
 	       
 	       
 	       /**
