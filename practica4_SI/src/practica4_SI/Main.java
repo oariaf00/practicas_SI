@@ -1,6 +1,7 @@
 package practica4_SI;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Main {
 	
@@ -41,10 +42,22 @@ public class Main {
 	static int d=5;
 	static int capacidadCorrectora=2;
 	
+	//Arrays para las permutaciones
+	static int[] peso0= {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+	static int[] peso1= {0,0,0,0,0,0,0,0,0,0,0,0,0,0,1};
+	static int[] peso2= {0,0,0,0,0,0,0,0,0,0,0,0,0,1,1};
+	
+	static ArrayList<Integer> combPeso0 = new ArrayList<Integer>();
+	static ArrayList<Integer> combPeso1 = new ArrayList<Integer>();
+	static ArrayList<Integer> combPeso2 = new ArrayList<Integer>();
+	static ArrayList<Integer> sindromes_peso0 = new ArrayList<Integer>();
+	static ArrayList<Integer> sindromes_peso1 = new ArrayList<Integer>();
+	static ArrayList<Integer> sindromes_peso2 = new ArrayList<Integer>();
+	
 	//Matriz binaria y limpia(despues de quitar los q tienen peso > 2)
 	static int [][] matrizBinaria;
 	static int [][] matrizBinariaLimpia;
-	static ArrayList<Integer> matrizBinariaAL = new ArrayList<Integer>();
+	static ArrayList<Integer> sindromes_palabras = new ArrayList<Integer>();
 	static ArrayList<Integer> matrizBinariaLimpiaAL = new ArrayList<Integer>();
 	
 	public static void main(String[] args) {
@@ -53,24 +66,77 @@ public class Main {
 		* Calculamos la longitud mínima para codificar cada caracter del alfabeto fuente
 		* y escogemos el valor inmediatamente superior entero como indica la fórmula
 		*/
+		
 		int longitudAlfabeto2 = calculaLongitudFuente();
 		System.out.println("Longitud del alfabeto fuente: " + longitudAlfabeto2);
 		
+		//Hallamos las permutaciones necesarias para el calculo de los errores
+		permutaciones();
+		
+		//Multiplicamos las permutaciones con la matriz de control
+		productoPermutaciones();
+		
+		//Comenzamos con la decodificación de la lista
 		obtenerCodigoFinal();
-		
-		
-		
-		//System.out.println("Conjuntos a decodificar: ");
-		/*for(int k=0;k<codigoFinal.size();k++) {
-			if(k%15==0&&k!=0) {
-				System.out.println();
-			}
-			System.out.print(codigoFinal.get(k));
-		}*/
-		
-		
-	}
 	
+		System.out.println("Ha llegado al final de la ejecución");
+	}
+
+	private static void productoPermutaciones() {
+		int[][] tmp= new int[15][1];
+		int i=0;
+		//Introducimos las permutaciones para multiplicarlas por H
+		while(i+15<=combPeso0.size()) {
+			for(int j=0 ; j<15; j++) {
+				tmp[j][0]=combPeso0.get(i+j);
+			}
+			int [][] producto= multiplicaPermutaciones(tmp, H);
+			
+			for(i=0;i<producto.length;i++) {
+				for(int j=0 ; j<producto[0].length; j++) {
+					sindromes_peso0.add(producto[i][j]);
+				}
+			}
+			
+			i=i+15;
+		}
+		
+		i=0;
+		
+		while(i+15<=combPeso1.size()) {
+			for(int j=0 ; j<15; j++) {
+				tmp[j][0]=combPeso1.get(i+j);
+			}
+			
+			int [][] producto= multiplicaPermutaciones(tmp, H);
+			
+			for(int k=0;k<producto.length;k++) {
+				for(int l=0 ; l<producto[0].length; l++) {
+					sindromes_peso1.add(producto[k][l]);
+				}
+			}
+			
+			i=i+15;
+		}
+		
+		i=0;
+		
+		while(i+15<=combPeso2.size()) {
+			for(int j=0 ; j<15; j++) {
+				tmp[j][0]=combPeso2.get(i+j);
+			}
+			
+			int [][] producto= multiplicaPermutaciones(tmp, H);
+			
+			for(int k=0;k<producto.length;k++) {
+				for(int l=0 ; l<producto[0].length; l++) {
+					sindromes_peso2.add(producto[k][l]);
+				}
+			}
+			
+			i=i+15;
+		}
+	}
 	
 	/**
 	 * Método que devuelve la longitud de la palabra de la fuente
@@ -82,6 +148,59 @@ public class Main {
 		return longitudAlfabeto2;
 	}
 	
+	private static void permutaciones() {
+		do {
+            for(int i=0;i<peso0.length;i++) {
+            	combPeso0.add(peso0[i]);
+            }
+        } while (nextPermutation(peso0));
+		
+		do {
+			for(int i=0;i<peso1.length;i++) {
+            	combPeso1.add(peso1[i]);
+            }
+        } while (nextPermutation(peso1));
+		
+		do {
+			for(int i=0;i<peso2.length;i++) {
+            	combPeso2.add(peso2[i]);
+            }
+        } while (nextPermutation(peso2));
+		
+	}
+	
+	private static boolean nextPermutation(int[] array) {
+
+        int i = array.length - 1;
+        while (i > 0 && array[i - 1] >= array[i]) {
+            i--;
+        }
+
+        if (i <= 0) {
+            return false;
+        }
+
+        int j = array.length - 1;
+        while (array[j] <= array[i - 1]) {
+            j--;
+        }
+
+        int temp = array[i - 1];
+        array[i - 1] = array[j];
+        array[j] = temp;
+
+        j = array.length - 1;
+        while (i < j) {
+            temp = array[i];
+            array[i] = array[j];
+            array[j] = temp;
+            i++;
+            j--;
+        }
+        
+        return true;
+    }
+
 	/**
 	 * Método que divide las palabras de la lista inicial
 	 * @return ArrayList con las palabras a decodificar
@@ -96,65 +215,37 @@ public class Main {
 		int i=0;
 		int j=0;
 		int[][] arrayCod = new int [15][1];
+		int[] bloque= new int[15];
 		
-		while(i+15<=lista.length) {//Mientras haya palabras en el código
+		while(i+15<=lista.length) {
+			System.out.println("iteracion: "+i);
 			for(j=0 ; j<15; j++) {
-				//Aquí entrará para meter los dígitos en el código final
+				//Dividimos en bloques de 15 dígitos
 				arrayCod[j][0]= lista[i+j];
-				codigoFinal.add(lista[i+j]);
+				//Hacemos una copia para luego restarle el error patrón
+				bloque[j]=lista[i+j];
+				
+			}
+			//Hallamos el síndrome del bloque extraído, almacenandolo en sindromes_palabras
+			ArrayList<Integer> tmp= multiplicaPalabras(arrayCod, H);
+			
+			/*
+			 * Este valor determina si la palabra tiene error o no, si devuelve -1 en el texto a desencriptar
+			 * introducimos el bloque origina, y si tiene error lo reemplazamos por el de array de permutaciones
+			 */
+			System.out.println(tmp);
+			int pos=comparaErrores(tmp);
+			
+			if(pos!=-1) {
+				System.out.println("Hay error");
+			}
+			else {
+				System.out.println("No hay error");
 			}
 			
-			//Hallamos el síndrome del bloque extraído
-			int[][] sindrome= multiplica(arrayCod, H);
-		
-			System.out.println("Síndrome: ");
-			for(j=0 ; j<sindrome.length; j++) {
-				for(int l=0;l<sindrome[0].length;l++) {
-					System.out.print(sindrome[j][l]+" ");
-				}
-				System.out.println();
-			}
-			
-			
-			i = i+15;
+			i+=15;
 		}
 		
-		System.out.println("AL:");
-		for (int k = 0; k < matrizBinariaAL.size(); k++) {
-			System.out.print(matrizBinariaAL.get(k)+" ");
-		}
-		
-		int num, numSindromes, aux;
-		num=0;
-		
-		numSindromes = matrizBinariaAL.size()/9;
-		
-		System.out.println();
-		System.out.println("Numero de sindromes "+numSindromes+"  num sindromes*9 "+matrizBinariaAL.size());
-		
-		for(int q=0; q<numSindromes; q++) {
-			aux=0;
-			
-			for(int p=0; p<9; p++) {
-				if(matrizBinariaAL.get((q*9)+p)==1) {
-					aux++;
-				}
-			}
-			
-			if(aux<3) {
-				for(int t=0; t<9; t++) {
-					matrizBinariaLimpiaAL.add(matrizBinariaAL.get((q*9)+t));
-				}
-			}
-			
-		}	
-		
-		System.out.println("AL limpita:");
-		for (int k = 0; k < matrizBinariaLimpiaAL.size(); k++) {
-			System.out.print(matrizBinariaLimpiaAL.get(k)+" ");
-		}
-		System.out.println();
-		System.out.println("matriz limpia. get size "+matrizBinariaLimpiaAL.size()+" division entre 9: "+matrizBinariaLimpiaAL.size()/9);
 		/*
 		 * En las siguientes líneas comprobamos que no haya cola dentro del código que nos han dado para
 		 * decodificar. De ser así cogemos los dígitos que constituyan la cola y los añadimos al arraylist
@@ -171,7 +262,57 @@ public class Main {
 			}
 		}
 	}
+
 	
+	private static int comparaErrores(ArrayList<Integer> tmp) {
+		// TODO Auto-generated method stub
+		//Recorremos la lista de sindromes_permutaciones buscando uno igual
+		int i=0;
+		ArrayList<Integer> bloque= new ArrayList<Integer>();
+
+		while(i<sindromes_peso0.size()) {
+			for(int k=0; k<9; k++){
+				bloque.add(sindromes_peso0.get(i+k));
+			}
+			
+			if(tmp.equals(bloque)) {
+				return i;
+			}
+			bloque.clear();
+			i+=tmp.size();			
+		}
+		
+		bloque.clear();
+		
+		while(i<sindromes_peso1.size()) {
+			for(int k=0; k<9; k++){
+				bloque.add(sindromes_peso1.get(i+k));
+			}
+			
+			if(tmp.equals(bloque)) {
+				return i;
+			}
+			bloque.clear();
+			i+=tmp.size();			
+		}
+		
+		bloque.clear();
+		
+		while(i<sindromes_peso2.size()) {
+			for(int k=0; k<9; k++){
+				bloque.add(sindromes_peso2.get(i+k));
+			}
+			
+			if(tmp.equals(bloque)) {
+				return i;
+			}
+			bloque.clear();
+			i+=tmp.size();			
+		}
+		return -1;
+	}
+
+
 	public static int[][] matrizTraspuestaYNegativa(int[][] original) {
 		int[][] traspuesta= new int[original[0].length][original.length];
 		
@@ -219,12 +360,49 @@ public class Main {
 	}
 	
 	/**
-	 * Método para multiplicar dos matrices
+	 * Método para multiplicaPalabrasr dos matrices
 	 * @param A
 	 * @param B
 	 * @return
 	 */
-	public static int[][] multiplica (int [][] arrayCod, int [][] H){
+	public static ArrayList<Integer> multiplicaPalabras (int [][] arrayCod, int [][] H){
+	       // filas de la matriz A
+	       int m= H[0].length;
+	       // columnas de la matriz B
+	       int o= arrayCod.length;
+	       // nueva matriz 
+	       ArrayList<Integer> C= new ArrayList<Integer>();
+	       
+	       //matrizBinaria = new int [H.length][arrayCod[0].length];
+	       // se comprueba si las matrices se pueden multiplicaPalabrasr
+	       if (m==o){
+	         for (int i=0; i<H.length;i++){
+	            for (int j=0; j<arrayCod[0].length;j++){
+	             //aqui se multiplica la matriz
+	              int a=0;
+	              for(int k=0;k<o;k++){
+	                  a=a+H[i][k]*arrayCod[k][j];
+	              }
+	              C.add(a%2);
+	              
+	              //Añadimos el contenido al arraylist de sindromes
+	              sindromes_palabras.add(a%2);
+	            }
+
+	         }
+	         return C;
+	       }
+	       return null;
+	    }
+	
+	/**
+	 * Método para multiplicar dos matrices
+	 * @param A
+	 * @param B
+	 * @return 
+	 * @return
+	 */
+	public static int[][] multiplicaPermutaciones (int [][] arrayCod, int [][] H){
 	       // filas de la matriz A
 	       int m= H[0].length;
 	       // columnas de la matriz B
@@ -232,8 +410,8 @@ public class Main {
 	       // nueva matriz 
 	       int [][] C= new int [H.length][arrayCod[0].length];
 	       
-	       matrizBinaria = new int [H.length][arrayCod[0].length];
-	       // se comprueba si las matrices se pueden multiplicar
+	       //matrizBinaria = new int [H.length][arrayCod[0].length];
+	       // se comprueba si las matrices se pueden multiplicaPalabrasr
 	       if (m==o){
 	         for (int i=0; i<C.length;i++){
 	            for (int j=0; j<C[0].length;j++){
@@ -242,20 +420,14 @@ public class Main {
 	              for(int k=0;k<o;k++){
 	                  a=a+H[i][k]*arrayCod[k][j];
 	              }
-	              C[i][j]=a;
+	              C[i][j]=a%2;
+	              
 	              //Añadimos el contenido al arraylist de sindromes
-	              matrizBinariaAL.add(a%2);
+	              //sindromes_palabras.add(a%2);
 	            }
 
 	         }
 	       }
-	       
-	       
-	       
-	       
-	       /**
-	        *  si no se cumple la condición se retorna una matriz vacía
-	        */
 	       return C;
 	    }
 	
