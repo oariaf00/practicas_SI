@@ -86,6 +86,7 @@ public class Main {
 		int[][] tmp= new int[15][1];
 		int i=0;
 		//Introducimos las permutaciones para multiplicarlas por H
+		//Estas son las permutaciones con peso 0
 		while(i+15<=combPeso0.size()) {
 			for(int j=0 ; j<15; j++) {
 				tmp[j][0]=combPeso0.get(i+j);
@@ -102,7 +103,7 @@ public class Main {
 		}
 		
 		i=0;
-		
+		//Estas son las permutaciones con peso 1
 		while(i+15<=combPeso1.size()) {
 			for(int j=0 ; j<15; j++) {
 				tmp[j][0]=combPeso1.get(i+j);
@@ -121,6 +122,7 @@ public class Main {
 		
 		i=0;
 		
+		//Estas son las permutaciones con peso 2
 		while(i+15<=combPeso2.size()) {
 			for(int j=0 ; j<15; j++) {
 				tmp[j][0]=combPeso2.get(i+j);
@@ -148,6 +150,9 @@ public class Main {
 		return longitudAlfabeto2;
 	}
 	
+	/**
+	 * Método que calcula y almacena las permutaciones
+	 */
 	private static void permutaciones() {
 		do {
             for(int i=0;i<peso0.length;i++) {
@@ -202,7 +207,7 @@ public class Main {
     }
 
 	/**
-	 * Método que divide las palabras de la lista inicial
+	 * Método que corrije y almacena las palabras código
 	 * @return ArrayList con las palabras a decodificar
 	 */
 	private static void obtenerCodigoFinal() {
@@ -226,7 +231,8 @@ public class Main {
 				bloque[j]=lista[i+j];
 				
 			}
-			//Hallamos el síndrome del bloque extraído, almacenandolo en sindromes_palabras
+			//Hallamos el síndrome del bloque extraído, almacenandolo en tmp
+			//Dentro de tmp hay 9 digitos que corresponden al producto de H*arrayCod (Bloque de 15 digitos)
 			ArrayList<Integer> tmp= multiplicaPalabras(arrayCod, H);
 			
 			/*
@@ -251,7 +257,7 @@ public class Main {
 		 * decodificar. De ser así cogemos los dígitos que constituyan la cola y los añadimos al arraylist
 		 * con el código final a descifrar
 		 */
-		System.out.println(lista.length);
+		
 		int mod = lista.length%15;
 		
 		if(mod>0) {
@@ -270,7 +276,9 @@ public class Main {
 		int i=0;
 		ArrayList<Integer> bloque= new ArrayList<Integer>();
 
+		//Realizamos este proceso con los 3 arrays de permutaciones
 		while(i<sindromes_peso0.size()) {
+			//Extraemos los errores de las permutaciones para comparar si es igual al del parámetro
 			for(int k=0; k<9; k++){
 				bloque.add(sindromes_peso0.get(i+k));
 			}
@@ -278,6 +286,8 @@ public class Main {
 			if(tmp.equals(bloque)) {
 				return i;
 			}
+			
+			//Limpiamos el array para la siguiente iteración y que no se acumulen los resultados ya escaneados
 			bloque.clear();
 			i+=tmp.size();			
 		}
