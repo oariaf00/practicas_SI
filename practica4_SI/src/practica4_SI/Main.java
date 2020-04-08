@@ -8,7 +8,7 @@ public class Main {
 	//Lista del código a desencriptar
 	static int[] lista= {1,1,0,1,0,0,0,1,0,1,0,0,1,1,0,0,0,1,1,1,1,0,1,1,1,0,1,1,1,0,1,1,0,1,1,1,0,1,0,1,0,1,0,0,0,0,0,1,0,1,0,1,1,0,0,1,0,0,1,1,1,1,1,0,0,0,0,0,1,0,0,0,1,1,0,1,1,1,1,1,1,0,0,1,1,0,1,1,0,0,1,0,1,1,1,0,0,0,1,0,1,1,0,0,1,1,1,0,0,1,0,1,0,1,0,1,0,1,1,1,0,0,1,0,1,0,0,0,0,1,1,1,0,1,1,0,0,0,1,0,0,1,0,1,1,0,1,1,0,0,0,1,1,1,0,0,0,1,0,0,1,1,1,0,1,0,1,1,0,0,1,1,1,1,1,0,0,0,0,0,1,0,0,1,0,1,1,1,1,1,0,0,0,0,0,1,0,1,0,0,1,0,0,0,1,0,1,0,1,0,0,0,0,1,0,1,1,0,1,1,1,0,0,1,1,0,0,0,1,1,0,0,1,1,1,0,1,1,1,0,0,1,1,0,1,0,1,1,1,0,1,0,1,0,1,1,0,0,1,0,1,0,1,1,0,0,0,1,0,0,0,0,0,1,1,0,0,1,1,1,0,1,1,1,0,0,1,1,0,1,1,1,0,1,1,1,0,0,1,1,0,0,0,0,1,0,1,0,1,1,0,1,1,0,0,1,1,0,1,0,1,0,1,0,1,1,1,0,0,1,0,1,1,1,0,0,1,0,1,1,0,1,1,0,0,0,0,1,1,1,1,0,1,0,0,0,1,1,0,0,0,1,1,0,0,1,0,1,0,0,1,0,0,1,1,1,1,1,0,1,1,0,0,0,1,0,0,1,0,0,0,0,0,1,1,0,0,1,1,0,1,1,0,1,1,0,0,1,0,0,0,1,0,1,0,1,0,1,1,1,0,1,0,0,1,1,0,1,1,0,0,0,1,0,0,1,1,0,1,1,0,1,0,0,1,0,1,0,1,0,0,0,0,0,0,1,0,1,0,1,0,0,1,1,0,0,0,0,0,1,0,0,1,0,1,0,0,1,1,0,0,0,1,1,1,0,0,0,1,0,0,1,0,0,0,0,0,1,1,1,1,0,1,1,1,0,0,0,0,0,0,1,1,0,1,0,0,1,1,1,1,0,0,0,1,1,0,1,1,0,1,1,0,1,1,1,0,0,1,1,0,1,0,1,1,0,1,1,0,1,1,1,0,0,1,1,0,0,1,0,1,0,1,0,1,0,1,0,0,0,0,0,0,1,1,1,0,1,0,1,0,0,1,1,0,0,1,0,1,0,0,1,0,1,0,0,1,0,0,0,0,1,0,0,1,1,1,0,0,1,1,1,0,1,1,0,0,1,0,0,1,1,1,1,0,0,1,0,1,0,0,1,0,0,1,1,1,0,1,0,1,1,0,0,1,0,1,0,1,0,0,0,1,0,1,1,1,0,0,1,0,1,1,0,1,0,1,1,0,0,0,1,1,0,0,1,1,0,1,0,1,1,1,1,0,0,0,1,0,0,1,0,1,1,0,1,1,0,1,0,0,1,0,0,0,1,1,0,0,0,1,1,1,1,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,1,0,1,0,1,0,1,1,0,0,1,0,1,0,1,0,1,1,1,0,1,0,1,0,0,0,1,0,1,1,1,0,0,1,1,1,1,1,0,1,1,1,1,0,1,0,1,0,1,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,1,0,1,1,1,0,0,1,1,1,1,1,0,0,0,1,1,0,1,1,0,1,1,1,1,1,1,0,0,1,1,1,1,1,0,0,0,1,1,0,0,0,0,0,1,0,1,0,1,1,0,0,1,0,1,1,1,0,0,1,0,1,1,0,1,1,0,0,0,0,1,1,1,1,0,1,0,0,0,1,1,0,0,0,0,1,1,1,0,0,1,0,0,1,1,1,0,1,1,0,1,0,1,0,1,1,0,0,0,0,0,1,0,0,0,1,1,1,1,0,1,0,0,0,1,1,0,0,1,0,1,0,0,1,1,0,1,1,0,1,1,0,0,1,1,0,0,1,0,1,0,1,0,1,1,0,0,1,1,0,1,1,1,1,1,1,0,1,1,1,0,0,1,1,1,1,0,0,0,1,1,1,0,1,0,1,0,1,1,1,0,1,0,0,0,1,0,1,0,0,1,1,0,1,1,1,1,0,1,1,1,1,0,1,0,1,0,1,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0,1,1,1,1,0,0,0,1,1,1,0,0,1,1,1,0,0,1,0,0,1,0,0,1,1,1,0,0,0,1,0,1,1,0,1,1,0,0,0,1,1,1,1,1,1,0,0,1,1,0,1,0,1,1,1,1,1,0,0,1,1,1,0,0,1,0,1,0,0,0,0,1,1,0,1,0,0,1,0,0,1,0,0,0,0,1,0,0,1,0,0,0,1,1,0,1,0,1,1,1,0,0,1,1,0,1,1,0,1,1,0,1,1,1,1,1,0,0,0,0,0,1,0,0,1,0,0,0,0,1,0,1,1,0,0,0,1,1,1,1,1,0,1,0,0,0,0,0,0,0,0,0,1,1,0,1,0,1,0,1,0,0,0,0,0,0,1,1,1,1,1,0,1,0,0,1,1,1,0,0,0,1,1,1,0,0,1,1,0,1,0,0,1,1,0,0,1,0,0,0,1,1,0,1,1,1,1,0,1,0,1,1,1,1,0,0,0,1,1,0,0,0,0,0,1,0,1,0,1,1,0,0,1,0,0,0,1,1,0,1,0,0,1,0,1,0,1,0,1,0,1,1,0,0,1,1,1,0,1,1,0,1,1,0,1,1,1,1,1,0,1,1,1,1,0,0,0,1,0,1,1,1,0,1,1,0,1,1,1,1,1,0,1,1,0,0,0,0,0,0,1,0,1,0,1,0,0,0,1,0,1,0,1,0,0,1,1,1,1,0,0,0,1,0,0,1,0,0,0,1,0,1,0,1,1,0,0,1,0,1,0,0,0,1,1,1,1,1,1,1,1,1,1,0,0,0,1,0,1,0,0,1,1,0,1,1,0,0,1,1,1,1,1,0,0,1,0,0,1,0,0,1,1,1,1,1,0,0,0,1,1,1,1,0,1,1,1,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,1,0,1,0,1,1,0,0,0,1,0,1,1,0,0,1,0,1,0,1,0,1,0,1,1,1,0,1,1,1,1,1,1,1,0,1,1,1,0,0,1,1,1,0,0,0,1,1,0,1,1,0,0,0,1,0,1,0,0,0,1,1,0,0,1,1,1,1,1,0,1,0,1,1,1,1,1,0,0,0,1,0,1,0,1,0,0,0,0,1,0,1,0,0,0,0,0,0,0,0,0,1,1,0,0,1,0,1,0,1,0,1,0,1,1,1,1,1,0,0,0,0,1,0,0,1,0,0,1,0,0,1,1,0,0,1,1,1,0,0,1,0,1,0,1,0,0,0,0,0,1,0,0,1,0,1,0,0,1,1,0,0,0,1,1,1,1,1,1,0,0,1,0,0,1,1,0,0,0,1,1,0,0,1,1,1,0,1,1,1,0,0,0,1,0,0,0,0,0,1,0,0,0,1,1,0,1,1,0,0,0,1,0,1,1,1,1,0,0,0,1,1,1,1,0,1,1,0,1,1,0,0,0,1,0,0,1,0,0,1,1,0,1,1,0,1,1,1,0,0,1,0,0,0,0,0,0,0,0,0,1,1,0,1,0,1,0,1,0,0,0,1,1,1,0,0,1,0,0,1,1,1,1,1,0,1,1,0,0,1,0,0,0,1,1,0,1,0,1,0,1,0,1,0,1,1,0,1,1,0,0,1,1,0,0,1,0,1,0,1,0,1,0,1,1,1,0,1,1,0,1,1,1,0,1,1,1,0,0,1,1,1,0,0,1,1,1,1,1,0,0,1,1,1,0,1,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,0,1,0,0,0,0,0,1,0,1,0,0,1,1,0,1,0,1,0,1,0,0,0,1,1,1,0,0,1,1,0,0,1,0,1,1,0,0,0,1,0,1,0,1,0,0,1,0,0,1,0,0,1,0,1,1,1,0,0,1,1,0,1,0,0,1,1,0,1,0,1,0,1,1,1,0,0,0,0,0,1,0,1,1,0,0,1,0,1,0,1,0,1,0,0,0,0,0,0,1,1,0,1,0,1,1,0,0,0,1,0,1,1,0,0,1,0,0,1,1,1,1,1,0,1,0,1,0,0,1,0,0,1,0,0,1,0,1,0,0,1,1,0,1,1,0,1,1,0,0,1,1,1,0,0,0,0,1,1,1,1,0,0,0,1,0,1,1,1,0,0,1,0,1,0,1,1,0,0,1,0,0,1,0,1,0,1,0,0,1,0,1,0,1,0,0,1,0,1,1,0,1,1,0,0,0,0,0,1,0,1,1,1,1,1,0,0,1,0,1,0,1,0,0,0,0,1,0,0,0,0,1,1,1,1,0,1,1,1,0,1,0,1,1,1,1,0,1,0,0,1,1,1,0,1,1,1,0,1,0,0,1,0,1,0,1,0,1,1,1,0,0,0,0,0,0,1,0,0,1,0,0,1,0,0,0,1,1,1,1,0,1,0,0,1,0,1,0,1,0,1,0,1,0,1,1,0,1,0,0,0,1,1,0,0,0,1,1,0,1,0,0,0,1,0,0,1,0,0,0,0,0,0,1,0,0,0,0,1,1,1,0,0,1,1,0,1,0,1,1,1,0,1,0,1,1,1,0,0,1,1,0,0,1,1,0,0,0,1,1,1,0,0,1,1,0,0,0,1,0,1,1,1,1,1,1,0,0,0,1,0,1,1,0,0,1,0,1,1,0,0,1,0,1,0,0,1,0,1,1,1,1,1,1,1,1,1,1,1,1,0,0,1,1,0,0,1,0,0,0,1,1,1,1,1,0,1,1,0,0,1,1,1,1,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,1,1,0,1,1,0,1,0,0,0,1,1,0,1,1,0,1,1,1,1,0,0,1,1,0,1,0,1,0,0,1,1,0,1,1,0,1,1,0,1,1,0,0,0,0,0,0,0,1,0,0,1,1,1,0,0,1,1,1,0,0,1,1,1,0,1,0,1,1,0,1,1,1,1,1,1,0,0,1,0,0,0,1,1,0,1,0,1,0,1,1,1,1,0,1,1,1,1,1,1,1,1,1,0,1,0,1,0,1,1,0,1,0,1,1,0,0,1,1,1,0,0,0,1,1,1,1,1,0,0,0,0,0,0,0,1,0,1,0,1,0,0,1,0,0,1,0,0,1,0,1,0,1,1,1,0,0,1,0,0,1,0,0,1,1,1,0,0,0,1,0,1,0,1,0,1,1,1,1,0,1,1,0,1,0,0,0,1,1,1,0,1,1,0,1,0,0,0,1,0,0,0,0,0,1,1,1,0,0,0,0,0,1,1,1,0,0,1,0,1,0,1,0,1,1,0,0,1,0,1,0,1,0,1,1,0,0,1,0,0,0,1,0,0,1,0,1,1,0,1,1,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,0,1,0,1,0,0,1,1,0,1,1,0,0,1,0,0,0,1,0,0,0,1,1,0,0,1,0,0,0,1,1,0,1,1,1,0,0,1,1,0,1,1,1,0,0,1,0,1,1,0,1,1,0,0,0,0,0,0,0,1,1,0,1,0,1,0,1,1,1,1,1,0,0,0,0,0,1,0,1,1,1,0,0,1,0,0,0,1,0,1,0,0,1,1,0,0,0,1,0,0,1,0,1,1,0,0,0,1,0,0,0,1,1,0,0,0,1,0,0,0,1,1,1,1,0,0,0,0,0,1,0,0,0,0,0,0,1,0,1,0,1,0,0,0,1,1,0,0,0,1,0,1,1,1,1,0,0,0,1,0,1,0,0,1,1,1,0,1,0,1,1,0,0,1,0,0,0,0,1,1,1,0,1,0,0,0,1,1,0,1,1,1,1,0,0,0,1,1,0,1,1,0,1,1,1,1,0,0,0,1,0,1,0,1,0,1,0,0,0,0,0,1,0,0,0,0,0,1,1,1,0,0,1,1,0,0,1,1,1,0,0,0,0,1,0,1,0,1,0,0,0,1,0,0,0,1,1,0,1,1,1,0,0,1,1,1,0,1,1,1,0,0,0,0,1,1,1,1,1,1,0,1,0,1,1,0,1,0,1,1,0,1,1,1,1,0,1,0,1,0,0,0,1,0,0,0,1,1,0,1,1,1,1,0,1,0,1,0,0,1,0,0,1,1,1,0,1,1,0,0,1,1,0,1,1,0,1,1,1,1,1,0,1,1,0,1,1,1,1,1,1,1,1,1,0,0,1,1,0,0,1,1,1,0,0,0,1,0,0,1,0,1,1,1,1,1,1,0,0,0,0,0,1,0,1,1,0,1,0,0,0,0,0,0,1,1,1,1,1,0,1,1,1,0,0,0,1,0,1,0,0,1,1,0,0,1,0,0,0,0,0,0,1,1,1,0,0,1,1,1,0,1,0,0,1,1,1,1,1,0,0,0,0,0,1,1,1,0,1,1,0,0,1,0,0,0,1,1,0,0,0,0,1,0,1,1,0,1,0,0,1,0,0,0,0,0,1,1,1,0,1,1,0,0,0,1,1,0,0,0,0,1,1,0,1,0,1,1,1,1,1,1,1,1,0,1,1,1,0,1,1,0,1,0,0,0,1,1,0,0,1,1,1,0,0,0,0,1,0,0,0,1,1,0,0,0,0,1,0,1,1,0,1,0,0,1,0,0,0,1,0,0,1,1,0,0,0,1,0,0,1,0,0,0,1,1,1,1,0,0,0,0,0,0,0,1,1,1,0,0,1,0,0,1,0,0,0,0,1,1,0,1,0,1,0};
 	//Alfabeto que usaremos para traducir
-	static char[] alf= {'A','Á','B','C','D','E','É','F','G','H','I','Í','J','K','L','M','N','Ñ','O','Ó','P','Q','R','S','T','U','Ú','V','W','X','Y','Z', '.',';',':','(',')','¿', '?', '¡','!','-','0','1','2','3','4','5','6','7','8','9','a','á','b','c','d','e','é','f','g','h','i','í','j','k','l','m','n','ñ','o','ó','p','q','r','s','t','u','ú','v','w','x','y','z'};
+	static char[] alf= {'A','Á','B','C','D','E','É','F','G','H','I','Í','J','K','L','M','N','Ñ','O','Ó','P','Q','R','S','T','U','Ú','V','W','X','Y','Z',' ','.',',',';',':','(',')','¿', '?', '¡','!','-','0','1','2','3','4','5','6','7','8','9','a','á','b','c','d','e','é','f','g','h','i','í','j','k','l','m','n','ñ','o','ó','p','q','r','s','t','u','ú','v','w','x','y','z'};
 
 	//Matriz generadora para esta codificación (Introducida manualmente matriz identidad)
 	int[][] matrizGeneradora={
@@ -33,6 +33,7 @@ public class Main {
 	
 	//Base=2 porque estamos trabajando con un código binario
 	static int base = 2;
+	static int longitudAlfabeto2=0;
 	
 	//ArrayLists donde meteremos los códigos con el ruido
 	static ArrayList<Integer> codigoFinal = new ArrayList<Integer>();
@@ -48,9 +49,12 @@ public class Main {
 	static int[] peso1= {0,0,0,0,0,0,0,0,0,0,0,0,0,0,1};
 	static int[] peso2= {0,0,0,0,0,0,0,0,0,0,0,0,0,1,1};
 	
+	//Arrays donde se guardan las combinaciones distinguidas por pesos
 	static ArrayList<Integer> combPeso0 = new ArrayList<Integer>();
 	static ArrayList<Integer> combPeso1 = new ArrayList<Integer>();
 	static ArrayList<Integer> combPeso2 = new ArrayList<Integer>();
+	
+	//Arrays donde se guardan los resultados de buscar cada síndrome por la matriz H
 	static ArrayList<Integer> sindromes_peso0 = new ArrayList<Integer>();
 	static ArrayList<Integer> sindromes_peso1 = new ArrayList<Integer>();
 	static ArrayList<Integer> sindromes_peso2 = new ArrayList<Integer>();
@@ -67,8 +71,7 @@ public class Main {
 		* Calculamos la longitud mínima para codificar cada caracter del alfabeto fuente
 		* y escogemos el valor inmediatamente superior entero como indica la fórmula
 		*/
-		
-		int longitudAlfabeto2 = calculaLongitudFuente();
+		longitudAlfabeto2 = calculaLongitudFuente();
 		System.out.println("Longitud del alfabeto fuente: " + longitudAlfabeto2);
 		
 		//Hallamos las permutaciones necesarias para el calculo de los errores
@@ -80,39 +83,12 @@ public class Main {
 		//Comenzamos con la decodificación de la lista
 		obtenerCodigoFinal();
 		decodificar();
-//		System.out.println("Lista: ");
-//		for(int k=0;k<lista.length;k++){
-//			System.out.print(lista[k]+", ");
-//		}
-//		System.out.println("Código final: ");
-		
-	
-		System.out.println("Ha llegado al final de la ejecución");
-		System.out.print(codigoFinal);
-		System.out.println();
-		System.out.print(decodificacion);
-		System.out.println();
-		System.out.println(decodificacion.size());
-		System.out.println(decodificacion.size()%longitudAlfabeto2);
-//		System.out.println(sindromes_peso0);
-//		System.out.println(sindromes_peso1);
-//		System.out.println(sindromes_peso2);
-		System.out.println("--------------------------------------------");
-//		for(int l=0;l<combPeso1.size();l++) {
-//			if(l%15==0) {
-//				System.out.println(" "+l+" ");
-//			}
-//			System.out.print(combPeso1.get(l));
-//		}
-//		
-//		for(int l=0;l<combPeso2.size();l++) {
-//			if(l%15==0) {
-//				System.out.println(" "+l+" ");
-//			}
-//			System.out.print(combPeso2.get(l));
-//		}
 	}
 
+	
+	/**
+	 * Método que coge el array corregido y lo trocea y decodifica
+	 */
 	private static void decodificar() {
 		// TODO Auto-generated method stub
 		//Como en este caso la identidad es de tamaño 6, cogemos los 6 primeros elementos
@@ -133,33 +109,44 @@ public class Main {
 		//Decodificamos las palabras
 		i=0;
 		int k=0;
-		int [] arrayCodigoLetra = new int [6];
-		char [] arrayLetras = new char [decodificacion.size()/6];
+		int [] arrayCodigoLetra = new int [longitudAlfabeto2];
+		char [] arrayLetras = new char [decodificacion.size()/longitudAlfabeto2];
 		while(i+7<=decodificacion.size()) {
 			//Con este bucle for conseguimos los 6 elementos para conseguir el símbolo buscado.
-			System.out.println("Código a traducir: ");
-			for(int j=0 ; j<6; j++) {
+			for(int j=0 ; j<longitudAlfabeto2; j++) {
 				arrayCodigoLetra[j] = decodificacion.get(i+j);
-				System.out.print(+arrayCodigoLetra[j]);
 			}
-			System.out.println();
 			//Llamamos al método para traducir la letra y la añadimos a un array
 			arrayLetras[k] = traducirLetra(arrayCodigoLetra, alf);
-			System.out.println();
-			System.out.println("LETRA: " + arrayLetras[k]);
 			k++;
-			
-			System.out.println();
 			i = i+7;
 		}
 		
+		ArrayList<Character> texto= new ArrayList<Character>();
+		
+		//Pasamos el array a un arraylist para eliminar los espacios dobles
+		for(int j=0 ; j<arrayLetras.length; j++) {
+			texto.add(arrayLetras[j]);
+		}
+		
+		//Sustituimos los espacios seguidos por saltos de linea
+		for(int j=0 ; j<texto.size(); j++) {
+			if(texto.get(j)==' ' && texto.get(j+1)==' ') {
+				texto.set(j, '\n');
+				texto.remove(j+1);
+			}
+		}
+		
 		System.out.println("Mensaje decodificado: ");
-		for(int q=0 ; q<arrayLetras.length ; q++){
-			System.out.print(arrayLetras[q]);
+		for(int j=0 ; j<texto.size(); j++) {
+			System.out.print(texto.get(j));
 		}
 		
 	}
 
+	/**
+	 * Método que hace el producto de la matriz H por cada permutación
+	 */
 	private static void productoPermutaciones() {
 		int[][] tmp= new int[15][1];
 		int i=0;
@@ -224,7 +211,6 @@ public class Main {
 	 */
 	private static int calculaLongitudFuente() {
 		double logaritmoFuente = Math.log10(alf.length)/Math.log10(base);
-		System.out.println(logaritmoFuente);
 		int longitudAlfabeto2 = (int) Math.ceil(logaritmoFuente);
 		return longitudAlfabeto2;
 	}
@@ -253,6 +239,11 @@ public class Main {
 		
 	}
 	
+	/**
+	 * Método que realiza las permutaciones de los errores
+	 * @param array
+	 * @return
+	 */
 	private static boolean nextPermutation(int[] array) {
 
         int i = array.length - 1;
@@ -300,9 +291,7 @@ public class Main {
 		int j=0;
 		int[][] arrayCod = new int [15][1];
 		int[] bloque= new int[15];
-		
 		while(i+15<=lista.length) {
-			System.out.println("iteracion: "+i);
 			for(j=0 ; j<15; j++) {
 				//Dividimos en bloques de 15 dígitos
 				arrayCod[j][0]= lista[i+j];
@@ -318,19 +307,17 @@ public class Main {
 			 * Este valor determina si la palabra tiene error o no, si devuelve -1 en el texto a desencriptar
 			 * introducimos el bloque origina, y si tiene error lo reemplazamos por el de array de permutaciones
 			 */
-			System.out.println(tmp);
 			int[] error_patron=comparaErrores(tmp);
 			
 			//En función de si hay error o no corregimos la palabra
-			if(error_patron!=null) {
-				System.out.println("Hay error");
+			if(error_patron!=null) {//Hay error
 				int[] palabraCorregida=restarError(bloque, error_patron);
+				
 				for(int k=0;k<arrayCod.length;k++) {
 					codigoFinal.add(palabraCorregida[k]);
 				}
 			}
-			else {
-				System.out.println("No hay error");
+			else {//No hay error
 				for(int k=0;k<arrayCod.length;k++) {
 					codigoFinal.add(bloque[k]);
 				}
@@ -346,7 +333,6 @@ public class Main {
 		 */
 		
 		int mod = lista.length%15;
-		
 		if(mod>0) {
 			int [] cola = new int [mod];
 			for(int k=i; k<lista.length; k++){
@@ -355,7 +341,13 @@ public class Main {
 			}
 		}
 	}
-
+	
+	/**
+	 * Método para restar el error a la palabra código
+	 * @param arrayCod
+	 * @param error_patron
+	 * @return
+	 */
 	private static int[] restarError(int[] arrayCod, int[] error_patron) {
 		// TODO Auto-generated method stub
 		int[] retorno= new int[arrayCod.length];
@@ -392,8 +384,7 @@ public class Main {
 			
 			if(tmp.equals(bloque)) {
 				//Almacenamos en un int el error patron correspondiente a devolver
-				//System.out.println("i: "+i);
-				int pos= ((i-9)/9)*15;
+				int pos= ((i)/9)*15;
 				for(int k=0;k<15;k++){
 					retorno[k]=combPeso0.get(k);
 				}
@@ -416,9 +407,7 @@ public class Main {
 			
 			if(tmp.equals(bloque)) {
 				//Almacenamos en un int el error patron correspondiente a devolver
-				//System.out.println("i: "+i);
-				int pos= ((i-9)/9)*15;
-				//System.out.println(pos/15);
+				int pos= ((i)/9)*15;
 				for(int k=0;k<15;k++){
 					retorno[k]=combPeso1.get(pos+k);
 				}
@@ -440,8 +429,7 @@ public class Main {
 			
 			if(tmp.equals(bloque)) {
 				//Almacenamos en un int el error patron correspondiente a devolver
-				System.out.println("i: "+i);
-				int pos= ((i-9)/9)*15;
+				int pos= ((i)/9)*15;
 				for(int k=0;k<15;k++){
 					retorno[k]=combPeso2.get(pos+k);
 				}
@@ -483,23 +471,16 @@ public class Main {
 		
 		int[][] H= new int[traspuesta.length][identidad[0].length+traspuesta[0].length];
 		
-		for(int i=0;i<identidad.length;i++) {
-			for(int j=0;j<identidad[0].length;j++) {
-				H[i][j]=identidad[i][j];
-			}
-		}
-		
 		for(int i=0;i<traspuesta.length;i++) {
 			for(int j=0;j<traspuesta[0].length;j++) {
-				H[i][j+identidad[0].length]=traspuesta[i][j];
+				H[i][j]=traspuesta[i][j];
 			}
 		}
 		
-		for(int k=0;k<H.length;k++) {
-			for(int l=0;l<H[0].length;l++) {
-				System.out.print(H[k][l]+" ");
+		for(int i=0;i<identidad.length;i++) {
+			for(int j=0;j<identidad[0].length;j++) {
+				H[i][j+traspuesta[0].length]=identidad[i][j];
 			}
-			System.out.println();
 		}
 		
 		return H;
@@ -592,15 +573,12 @@ public class Main {
 		
 		for(int i=codigoLetra.length-1 ; i>=0 ; i--){
 			if(codigoLetra[i] == 1){
-				//int potenciaDos = 2^potencia;
-				//System.out.println("POTENCIA " + potencia);
 				sumaCodigo = sumaCodigo + calcularPotencia(potencia);
-				System.out.println("POSICION: " + sumaCodigo);
 			}
 			potencia++;
 		}
 		
-		return alf2[sumaCodigo];
+		return alf[sumaCodigo];
 	}
 	
 	public static int calcularPotencia(int potencia){
