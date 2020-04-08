@@ -124,13 +124,13 @@ public class Ej3 {
 			 * En este bucle imprimimos las palabras a descifrar
 			 */
 			
-			System.out.println("Conjuntos a decodificar: ");
-			for(int k=0;k<codigoFinal.size();k++) {
-				if(k%3==0&&k!=0) {
-					System.out.println();
-				}
-				System.out.print(codigoFinal.get(k));
-			}
+//			System.out.println("Conjuntos a decodificar: ");
+//			for(int k=0;k<codigoFinal.size();k++) {
+//				if(k%3==0&&k!=0) {
+//					System.out.println();
+//				}
+//				System.out.print(codigoFinal.get(k));
+//			}
 			
 			/*
 			 * Como la longitud hallada anteriormente del alfabeto fuente es de 5, dividimos el código a decodificar
@@ -149,30 +149,43 @@ public class Ej3 {
 			 * Repetimos el bucle de antes: Recorremos todo el array con el código y mientras haya conjuntos de 5 elementos
 			 * vamos traduciendolo para obtener el mensaje que queremos descifrar
 			 */
-			System.out.println();
+			//System.out.println();
 			
 			while(i+longitudAlfabeto2<=codigoFinal.size()) {
 				//Con este bucle for conseguimos los 5 elementos para conseguir el símbolo buscado.
-				System.out.println("Código a traducir: ");
+				//System.out.println("Código a traducir: ");
 				for(j=0 ; j<longitudAlfabeto2; j++) {
 					arrayCodigoLetra[j] = codigoFinal.get(i+j);
-					System.out.print(+arrayCodigoLetra[j]);
+					//System.out.print(+arrayCodigoLetra[j]);
 				}
-				System.out.println();
+				//System.out.println();
 				//Llamamos al método para traducir la letra y la añadimos a un array
 				arrayLetras[k] = traducirLetra(arrayCodigoLetra, alf);
-				System.out.println();
-				System.out.println("LETRA: " + arrayLetras[k]);
+				//System.out.println();
+				//System.out.println("LETRA: " + arrayLetras[k]);
 				k++;
-				
-				System.out.println();
 				i = i+longitudAlfabeto2;
 			}
 			
 			//Imprimimos el resultado final
 			System.out.println("Mensaje decodificado: ");
-			for(int q=0 ; q<arrayLetras.length ; q++){
-				System.out.print(arrayLetras[q]);
+			ArrayList<Character> texto= new ArrayList<Character>();
+			
+			//Pasamos el array a un arraylist para eliminar los espacios dobles
+			for(int p=0 ; p<arrayLetras.length; p++) {
+				texto.add(arrayLetras[p]);
+			}
+			
+			//Sustituimos los espacios seguidos por saltos de linea
+			for(int p=0 ; p<texto.size(); p++) {
+				if(texto.get(p)==' ' && texto.get(p+1)==' ') {
+					texto.set(p, '\n');
+					texto.remove(p+1);
+				}
+			}
+			
+			for(int p=0 ; p<texto.size(); p++) {
+				System.out.print(texto.get(p));
 			}
 			System.out.println();
 			
