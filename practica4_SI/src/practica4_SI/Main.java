@@ -36,6 +36,7 @@ public class Main {
 	
 	//ArrayLists donde meteremos los códigos con el ruido
 	static ArrayList<Integer> codigoFinal = new ArrayList<Integer>();
+	static ArrayList<Integer> decodificacion = new ArrayList<Integer>();
 	static ArrayList<Integer> ruido = new ArrayList<Integer>();
 	
 	//Valor de la distancia de Hamming y la capacidad correctora
@@ -78,8 +79,85 @@ public class Main {
 		
 		//Comenzamos con la decodificación de la lista
 		obtenerCodigoFinal();
+		decodificar();
+//		System.out.println("Lista: ");
+//		for(int k=0;k<lista.length;k++){
+//			System.out.print(lista[k]+", ");
+//		}
+//		System.out.println("Código final: ");
+		
 	
 		System.out.println("Ha llegado al final de la ejecución");
+		System.out.print(codigoFinal);
+		System.out.println();
+		System.out.print(decodificacion);
+		System.out.println();
+		System.out.println(decodificacion.size());
+		System.out.println(decodificacion.size()%longitudAlfabeto2);
+//		System.out.println(sindromes_peso0);
+//		System.out.println(sindromes_peso1);
+//		System.out.println(sindromes_peso2);
+		System.out.println("--------------------------------------------");
+//		for(int l=0;l<combPeso1.size();l++) {
+//			if(l%15==0) {
+//				System.out.println(" "+l+" ");
+//			}
+//			System.out.print(combPeso1.get(l));
+//		}
+//		
+//		for(int l=0;l<combPeso2.size();l++) {
+//			if(l%15==0) {
+//				System.out.println(" "+l+" ");
+//			}
+//			System.out.print(combPeso2.get(l));
+//		}
+	}
+
+	private static void decodificar() {
+		// TODO Auto-generated method stub
+		//Como en este caso la identidad es de tamaño 6, cogemos los 6 primeros elementos
+		int[] bloque= new int[15];
+		int i=0;
+		while(i+15<=codigoFinal.size()) {
+			for(int j=0 ; j<15; j++) {
+				bloque[j]=codigoFinal.get(i+j);
+			}
+			
+			for(int j=0 ; j<6; j++) {
+				decodificacion.add(bloque[j]);
+			}
+			
+			i=i+15;
+		}
+		
+		//Decodificamos las palabras
+		i=0;
+		int k=0;
+		int [] arrayCodigoLetra = new int [6];
+		char [] arrayLetras = new char [decodificacion.size()/6];
+		while(i+7<=decodificacion.size()) {
+			//Con este bucle for conseguimos los 6 elementos para conseguir el símbolo buscado.
+			System.out.println("Código a traducir: ");
+			for(int j=0 ; j<6; j++) {
+				arrayCodigoLetra[j] = decodificacion.get(i+j);
+				System.out.print(+arrayCodigoLetra[j]);
+			}
+			System.out.println();
+			//Llamamos al método para traducir la letra y la añadimos a un array
+			arrayLetras[k] = traducirLetra(arrayCodigoLetra, alf);
+			System.out.println();
+			System.out.println("LETRA: " + arrayLetras[k]);
+			k++;
+			
+			System.out.println();
+			i = i+7;
+		}
+		
+		System.out.println("Mensaje decodificado: ");
+		for(int q=0 ; q<arrayLetras.length ; q++){
+			System.out.print(arrayLetras[q]);
+		}
+		
 	}
 
 	private static void productoPermutaciones() {
@@ -146,6 +224,7 @@ public class Main {
 	 */
 	private static int calculaLongitudFuente() {
 		double logaritmoFuente = Math.log10(alf.length)/Math.log10(base);
+		System.out.println(logaritmoFuente);
 		int longitudAlfabeto2 = (int) Math.ceil(logaritmoFuente);
 		return longitudAlfabeto2;
 	}
@@ -240,13 +319,21 @@ public class Main {
 			 * introducimos el bloque origina, y si tiene error lo reemplazamos por el de array de permutaciones
 			 */
 			System.out.println(tmp);
-			int pos=comparaErrores(tmp);
+			int[] error_patron=comparaErrores(tmp);
 			
-			if(pos!=-1) {
+			//En función de si hay error o no corregimos la palabra
+			if(error_patron!=null) {
 				System.out.println("Hay error");
+				int[] palabraCorregida=restarError(bloque, error_patron);
+				for(int k=0;k<arrayCod.length;k++) {
+					codigoFinal.add(palabraCorregida[k]);
+				}
 			}
 			else {
 				System.out.println("No hay error");
+				for(int k=0;k<arrayCod.length;k++) {
+					codigoFinal.add(bloque[k]);
+				}
 			}
 			
 			i+=15;
@@ -269,12 +356,32 @@ public class Main {
 		}
 	}
 
-	
-	private static int comparaErrores(ArrayList<Integer> tmp) {
+	private static int[] restarError(int[] arrayCod, int[] error_patron) {
+		// TODO Auto-generated method stub
+		int[] retorno= new int[arrayCod.length];
+		for(int i=0;i<arrayCod.length;i++) {
+			int x= arrayCod[i];
+			int y= error_patron[i];
+			retorno[i]= Math.abs(x-y);
+		}
+		return retorno;
+		
+	}
+
+	/**
+	 * Método en el que comparamos el síndrome de la palabra con los síndromes de las permutaciones
+	 * @param tmp síndrome de la palabra correspondiente
+	 * @return posición del error patrón para extraerlo
+	 */
+	private static int[] comparaErrores(ArrayList<Integer> tmp) {
 		// TODO Auto-generated method stub
 		//Recorremos la lista de sindromes_permutaciones buscando uno igual
 		int i=0;
+		
+		//Representa la posición del síndrome para luego buscarlo en el error patrón
+		int contador=0;
 		ArrayList<Integer> bloque= new ArrayList<Integer>();
+		int[] retorno= new int[15];
 
 		//Realizamos este proceso con los 3 arrays de permutaciones
 		while(i<sindromes_peso0.size()) {
@@ -284,15 +391,23 @@ public class Main {
 			}
 			
 			if(tmp.equals(bloque)) {
-				return i;
+				//Almacenamos en un int el error patron correspondiente a devolver
+				//System.out.println("i: "+i);
+				int pos= ((i-9)/9)*15;
+				for(int k=0;k<15;k++){
+					retorno[k]=combPeso0.get(k);
+				}
+				return retorno;
 			}
 			
 			//Limpiamos el array para la siguiente iteración y que no se acumulen los resultados ya escaneados
 			bloque.clear();
+			contador++;
 			i+=tmp.size();			
 		}
 		
 		bloque.clear();
+		contador=0;
 		
 		while(i<sindromes_peso1.size()) {
 			for(int k=0; k<9; k++){
@@ -300,13 +415,23 @@ public class Main {
 			}
 			
 			if(tmp.equals(bloque)) {
-				return i;
+				//Almacenamos en un int el error patron correspondiente a devolver
+				//System.out.println("i: "+i);
+				int pos= ((i-9)/9)*15;
+				//System.out.println(pos/15);
+				for(int k=0;k<15;k++){
+					retorno[k]=combPeso1.get(pos+k);
+				}
+				
+				return retorno;
 			}
 			bloque.clear();
+			contador++;
 			i+=tmp.size();			
 		}
 		
 		bloque.clear();
+		contador=0;
 		
 		while(i<sindromes_peso2.size()) {
 			for(int k=0; k<9; k++){
@@ -314,15 +439,26 @@ public class Main {
 			}
 			
 			if(tmp.equals(bloque)) {
-				return i;
+				//Almacenamos en un int el error patron correspondiente a devolver
+				System.out.println("i: "+i);
+				int pos= ((i-9)/9)*15;
+				for(int k=0;k<15;k++){
+					retorno[k]=combPeso2.get(pos+k);
+				}
+				return retorno;
 			}
 			bloque.clear();
+			contador++;
 			i+=tmp.size();			
 		}
-		return -1;
+		return null;
 	}
 
-
+	/**
+	 * Método para calcular la matriz de control
+	 * @param original
+	 * @return
+	 */
 	public static int[][] matrizTraspuestaYNegativa(int[][] original) {
 		int[][] traspuesta= new int[original[0].length][original.length];
 		
