@@ -11,7 +11,7 @@ public class Main {
 	static char[] alf= {'A','Á','B','C','D','E','É','F','G','H','I','Í','J','K','L','M','N','Ñ','O','Ó','P','Q','R','S','T','U','Ú','V','W','X','Y','Z',' ','.',',',';',':','(',')','¿', '?', '¡','!','-','0','1','2','3','4','5','6','7','8','9','a','á','b','c','d','e','é','f','g','h','i','í','j','k','l','m','n','ñ','o','ó','p','q','r','s','t','u','ú','v','w','x','y','z'};
 
 	//Matriz generadora para esta codificación (Introducida manualmente matriz identidad)
-	int[][] matrizGeneradora={
+	static int[][] matrizGeneradora={
 			{1,0,0,0,0,0,1,0,1,0,1,0,1,1,1},
 			{0,1,0,0,0,0,1,0,1,0,1,1,0,0,1},
 			{0,0,1,0,0,0,1,0,1,1,0,1,1,0,0},
@@ -91,19 +91,19 @@ public class Main {
 	 */
 	private static void decodificar() {
 		// TODO Auto-generated method stub
-		//Como en este caso la identidad es de tamaño 6, cogemos los 6 primeros elementos
-		int[] bloque= new int[15];
+		//Como en este caso la identidad es de tamaño matrizGeneradora.length, cogemos los matrizGeneradora.length primeros elementos
+		int[] bloque= new int[matrizGeneradora[0].length];
 		int i=0;
-		while(i+15<=codigoFinal.size()) {
-			for(int j=0 ; j<15; j++) {
+		while(i+matrizGeneradora[0].length<=codigoFinal.size()) {
+			for(int j=0 ; j<matrizGeneradora[0].length; j++) {
 				bloque[j]=codigoFinal.get(i+j);
 			}
 			
-			for(int j=0 ; j<6; j++) {
+			for(int j=0 ; j<matrizGeneradora.length; j++) {
 				decodificacion.add(bloque[j]);
 			}
 			
-			i=i+15;
+			i=i+matrizGeneradora[0].length;
 		}
 		
 		//Decodificamos las palabras
@@ -112,7 +112,7 @@ public class Main {
 		int [] arrayCodigoLetra = new int [longitudAlfabeto2];
 		char [] arrayLetras = new char [decodificacion.size()/longitudAlfabeto2];
 		while(i+7<=decodificacion.size()) {
-			//Con este bucle for conseguimos los 6 elementos para conseguir el símbolo buscado.
+			//Con este bucle for conseguimos los matrizGeneradora.length elementos para conseguir el símbolo buscado.
 			for(int j=0 ; j<longitudAlfabeto2; j++) {
 				arrayCodigoLetra[j] = decodificacion.get(i+j);
 			}
@@ -148,12 +148,12 @@ public class Main {
 	 * Método que hace el producto de la matriz H por cada permutación
 	 */
 	private static void productoPermutaciones() {
-		int[][] tmp= new int[15][1];
+		int[][] tmp= new int[matrizGeneradora[0].length][1];
 		int i=0;
 		//Introducimos las permutaciones para multiplicarlas por H
 		//Estas son las permutaciones con peso 0
-		while(i+15<=combPeso0.size()) {
-			for(int j=0 ; j<15; j++) {
+		while(i+matrizGeneradora[0].length<=combPeso0.size()) {
+			for(int j=0 ; j<matrizGeneradora[0].length; j++) {
 				tmp[j][0]=combPeso0.get(i+j);
 			}
 			int [][] producto= multiplicaPermutaciones(tmp, H);
@@ -164,13 +164,13 @@ public class Main {
 				}
 			}
 			
-			i=i+15;
+			i=i+matrizGeneradora[0].length;
 		}
 		
 		i=0;
 		//Estas son las permutaciones con peso 1
-		while(i+15<=combPeso1.size()) {
-			for(int j=0 ; j<15; j++) {
+		while(i+matrizGeneradora[0].length<=combPeso1.size()) {
+			for(int j=0 ; j<matrizGeneradora[0].length; j++) {
 				tmp[j][0]=combPeso1.get(i+j);
 			}
 			
@@ -182,14 +182,14 @@ public class Main {
 				}
 			}
 			
-			i=i+15;
+			i=i+matrizGeneradora[0].length;
 		}
 		
 		i=0;
 		
 		//Estas son las permutaciones con peso 2
-		while(i+15<=combPeso2.size()) {
-			for(int j=0 ; j<15; j++) {
+		while(i+matrizGeneradora[0].length<=combPeso2.size()) {
+			for(int j=0 ; j<matrizGeneradora[0].length; j++) {
 				tmp[j][0]=combPeso2.get(i+j);
 			}
 			
@@ -201,7 +201,7 @@ public class Main {
 				}
 			}
 			
-			i=i+15;
+			i=i+matrizGeneradora[0].length;
 		}
 	}
 	
@@ -283,24 +283,24 @@ public class Main {
 	private static void obtenerCodigoFinal() {
 		// TODO Auto-generated method stub
 		/*
-		 * Dentro de los conjuntos de 15, debemos diferenciar entre los dígitos para decodificar el mensaje
+		 * Dentro de los conjuntos de matrizGeneradora[0].length, debemos diferenciar entre los dígitos para decodificar el mensaje
 		 * y el ruido.
 		 */
 		
 		int i=0;
 		int j=0;
-		int[][] arrayCod = new int [15][1];
-		int[] bloque= new int[15];
-		while(i+15<=lista.length) {
-			for(j=0 ; j<15; j++) {
-				//Dividimos en bloques de 15 dígitos
+		int[][] arrayCod = new int [matrizGeneradora[0].length][1];
+		int[] bloque= new int[matrizGeneradora[0].length];
+		while(i+matrizGeneradora[0].length<=lista.length) {
+			for(j=0 ; j<matrizGeneradora[0].length; j++) {
+				//Dividimos en bloques de matrizGeneradora[0].length dígitos
 				arrayCod[j][0]= lista[i+j];
 				//Hacemos una copia para luego restarle el error patrón
 				bloque[j]=lista[i+j];
 				
 			}
 			//Hallamos el síndrome del bloque extraído, almacenandolo en tmp
-			//Dentro de tmp hay 9 digitos que corresponden al producto de H*arrayCod (Bloque de 15 digitos)
+			//Dentro de tmp hay 9 digitos que corresponden al producto de H*arrayCod (Bloque de matrizGeneradora[0].length digitos)
 			ArrayList<Integer> tmp= multiplicaPalabras(arrayCod, H);
 			
 			/*
@@ -323,7 +323,7 @@ public class Main {
 				}
 			}
 			
-			i+=15;
+			i+=matrizGeneradora[0].length;
 		}
 		
 		/*
@@ -332,7 +332,7 @@ public class Main {
 		 * con el código final a descifrar
 		 */
 		
-		int mod = lista.length%15;
+		int mod = lista.length%matrizGeneradora[0].length;
 		if(mod>0) {
 			int [] cola = new int [mod];
 			for(int k=i; k<lista.length; k++){
@@ -373,7 +373,7 @@ public class Main {
 		//Representa la posición del síndrome para luego buscarlo en el error patrón
 		int contador=0;
 		ArrayList<Integer> bloque= new ArrayList<Integer>();
-		int[] retorno= new int[15];
+		int[] retorno= new int[matrizGeneradora[0].length];
 
 		//Realizamos este proceso con los 3 arrays de permutaciones
 		while(i<sindromes_peso0.size()) {
@@ -384,8 +384,8 @@ public class Main {
 			
 			if(tmp.equals(bloque)) {
 				//Almacenamos en un int el error patron correspondiente a devolver
-				int pos= ((i)/9)*15;
-				for(int k=0;k<15;k++){
+				int pos= ((i)/9)*matrizGeneradora[0].length;
+				for(int k=0;k<matrizGeneradora[0].length;k++){
 					retorno[k]=combPeso0.get(k);
 				}
 				return retorno;
@@ -407,8 +407,8 @@ public class Main {
 			
 			if(tmp.equals(bloque)) {
 				//Almacenamos en un int el error patron correspondiente a devolver
-				int pos= ((i)/9)*15;
-				for(int k=0;k<15;k++){
+				int pos= ((i)/9)*matrizGeneradora[0].length;
+				for(int k=0;k<matrizGeneradora[0].length;k++){
 					retorno[k]=combPeso1.get(pos+k);
 				}
 				
@@ -429,8 +429,8 @@ public class Main {
 			
 			if(tmp.equals(bloque)) {
 				//Almacenamos en un int el error patron correspondiente a devolver
-				int pos= ((i)/9)*15;
-				for(int k=0;k<15;k++){
+				int pos= ((i)/9)*matrizGeneradora[0].length;
+				for(int k=0;k<matrizGeneradora[0].length;k++){
 					retorno[k]=combPeso2.get(pos+k);
 				}
 				return retorno;
