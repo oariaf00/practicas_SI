@@ -1,9 +1,5 @@
 package p6_SI;
 
-/**
- *
- * @author Victor
- */
 public class Nodo {
 
     private char dato;

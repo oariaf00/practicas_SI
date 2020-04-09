@@ -2,10 +2,6 @@ package p6_SI;
 
 import java.util.ArrayList;
 
-/**
- *
- * @author Victor
- */
 public class Lista {
 
     private Nodo inicio;

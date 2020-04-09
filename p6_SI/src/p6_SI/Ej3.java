@@ -58,7 +58,7 @@ public class Ej3 {
 			 */
 			double logaritmoFuente = Math.log10(alf.length)/Math.log10(base);
 			int longitudAlfabeto2 = (int) Math.ceil(logaritmoFuente);
-			//System.out.println("Longitud del alfabeto fuente: " + longitudAlfabeto2);
+			System.out.println("Longitud del alfabeto fuente: " + longitudAlfabeto2);
 			
 			/*
 			 * Para saber en cúantos elementos tenemos que dividir el mensaje a decodificar nos fijaremos
@@ -124,13 +124,13 @@ public class Ej3 {
 			 * En este bucle imprimimos las palabras a descifrar
 			 */
 			
-			//System.out.println("Conjuntos a decodificar: ");
-			for(int k=0;k<codigoFinal.size();k++) {
-				if(k%3==0&&k!=0) {
-					//System.out.println();
-				}
-				//System.out.print(codigoFinal.get(k));
-			}
+//			System.out.println("Conjuntos a decodificar: ");
+//			for(int k=0;k<codigoFinal.size();k++) {
+//				if(k%3==0&&k!=0) {
+//					System.out.println();
+//				}
+//				System.out.print(codigoFinal.get(k));
+//			}
 			
 			/*
 			 * Como la longitud hallada anteriormente del alfabeto fuente es de 5, dividimos el código a decodificar
@@ -164,43 +164,31 @@ public class Ej3 {
 				//System.out.println();
 				//System.out.println("LETRA: " + arrayLetras[k]);
 				k++;
-				
-				//System.out.println();
 				i = i+longitudAlfabeto2;
 			}
 			
+			//Imprimimos el resultado final
+			System.out.println("Mensaje decodificado: ");
 			ArrayList<Character> texto= new ArrayList<Character>();
 			
-			
 			//Pasamos el array a un arraylist para eliminar los espacios dobles
-			for(j=0 ; j<arrayLetras.length; j++) {
-				texto.add(arrayLetras[j]);
+			for(int p=0 ; p<arrayLetras.length; p++) {
+				texto.add(arrayLetras[p]);
 			}
 			
 			//Sustituimos los espacios seguidos por saltos de linea
-			for(j=0 ; j<texto.size(); j++) {
-				if(texto.get(j)==' ' && texto.get(j+1)==' ') {
-					texto.set(j, '\n');
-					texto.remove(j+1);
+			for(int p=0 ; p<texto.size(); p++) {
+				if(texto.get(p)==' ' && texto.get(p+1)==' ') {
+					texto.set(p, '\n');
+					texto.remove(p+1);
 				}
 			}
 			
-			
-			//Imprimimos el resultado final
-			System.out.println("Mensaje decodificado: ");
-			for(j=0 ; j<texto.size() ; j++){
-				System.out.print(texto.get(j));
+			for(int p=0 ; p<texto.size(); p++) {
+				System.out.print(texto.get(p));
 			}
 			System.out.println();
 			
-			/*
-			//Imprimimos el resultado final
-			System.out.println("Mensaje decodificado: ");
-			for(int q=0 ; q<arrayLetras.length ; q++){
-				System.out.print(arrayLetras[q]);
-			}
-			System.out.println();
-			*/
 		}
 		
 		

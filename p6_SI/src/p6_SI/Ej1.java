@@ -22,6 +22,7 @@ public class Ej1 {
 		// TODO Auto-generated method stub
 		
 		//EJERCICIO 1
+		System.out.println("Número de símbolos: "+texto.length());
 		double entropia= ej1(arrayTexto);
 		System.out.println("H(f)="+entropia);
 		

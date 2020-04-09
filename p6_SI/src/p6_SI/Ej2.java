@@ -13,6 +13,8 @@ public class Ej2 {
 	static int[] charFreqs = new int[9];
 	static double[] probabilidades= new double[9];
 	
+	int longitudMensajeDato= 2020;
+	
 	
 	public void principal() {
         
@@ -88,6 +90,10 @@ public class Ej2 {
 		System.out.println("LB: "+longitudBinaria);
 		
 		System.out.println("Eficacia: "+(double) resultadoFinal/ (double)longitudBinaria);
+		
+		double lEstimada= (longitudBinaria/2)*longitudMensajeDato;
+		
+		System.out.println("Longitud estimada del apartado b: "+lEstimada);
 
     }
 

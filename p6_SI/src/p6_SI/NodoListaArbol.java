@@ -1,9 +1,5 @@
 package p6_SI;
 
-/**
- *
- * @author Victor
- */
 public class NodoListaArbol {
 
     private Arbol dato;
