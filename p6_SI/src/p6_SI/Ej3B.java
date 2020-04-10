@@ -53,7 +53,7 @@ public class Ej3B {
 	//Matriz de control
 	static int [][] H= matrizTraspuestaYNegativa(A);
 	
-	//Base=2 porque estamos trabajando con un código binario
+	//Base=3 porque estamos trabajando con un código binario
 	static int base = 3;
 	static int longitudAlfabeto2=0;
 	
@@ -63,24 +63,46 @@ public class Ej3B {
 	static ArrayList<Integer> ruido = new ArrayList<Integer>();
 	
 	//Valor de la distancia de Hamming y la capacidad correctora
-	Hamming h = new Hamming(matrizGeneradora[0].length, lista);
-	int d= h.calcularDistancia();
-	//int capacidadCorrectora= h.calcularT();
+	static Hamming h = new Hamming(A);
+	static int d=h.distancia;
+	static int capacidadCorrectora=(d-1)/2;
 	
-	//Arrays para las permutaciones
-	static int[] peso0= {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
-	static int[] peso1= {0,0,0,0,0,0,0,0,0,0,0,0,0,0,1};
-	static int[] peso2= {0,0,0,0,0,0,0,0,0,0,0,0,0,1,1};
+	/*Arrays para las permutaciones (Todas las posibilidades con peso menor o igual a T)
+	 * Luego serán permutados para hallar todas las posiciones 
+	 */
+	static int[] combinacion0= {0,0,0,0,0,0,0,0,0,0,0,0};
+	static int[] combinacion1= {0,0,0,0,0,0,0,0,0,0,0,1};
+	static int[] combinacion2= {0,0,0,0,0,0,0,0,0,0,0,2};
+	static int[] combinacion3= {0,0,0,0,0,0,0,0,0,0,1,1};
+	static int[] combinacion4= {0,0,0,0,0,0,0,0,0,0,1,2};
+	static int[] combinacion5= {0,0,0,0,0,0,0,0,0,1,1,1};
+	static int[] combinacion6= {0,0,0,0,0,0,0,0,0,1,1,2};
+	static int[] combinacion7= {0,0,0,0,0,0,0,0,0,1,2,2};
+	static int[] combinacion8= {0,0,0,0,0,0,0,0,0,2,2,2};
 	
-	//Arrays donde se guardan las combinaciones distinguidas por pesos
-	static ArrayList<Integer> combPeso0 = new ArrayList<Integer>();
-	static ArrayList<Integer> combPeso1 = new ArrayList<Integer>();
-	static ArrayList<Integer> combPeso2 = new ArrayList<Integer>();
+	/*Arrays donde se guardan las combinaciones de las permutaciones de los arrays anteriores
+	 * Cada array guarda las combinaciones de los arrays anteriores
+	 */
+	static ArrayList<Integer> combinaciones0 = new ArrayList<Integer>();
+	static ArrayList<Integer> combinaciones1 = new ArrayList<Integer>();
+	static ArrayList<Integer> combinaciones2 = new ArrayList<Integer>();
+	static ArrayList<Integer> combinaciones3 = new ArrayList<Integer>();
+	static ArrayList<Integer> combinaciones4 = new ArrayList<Integer>();
+	static ArrayList<Integer> combinaciones5 = new ArrayList<Integer>();
+	static ArrayList<Integer> combinaciones6 = new ArrayList<Integer>();
+	static ArrayList<Integer> combinaciones7 = new ArrayList<Integer>();
+	static ArrayList<Integer> combinaciones8 = new ArrayList<Integer>();
 	
-	//Arrays donde se guardan los resultados de buscar cada síndrome por la matriz H
-	static ArrayList<Integer> sindromes_peso0 = new ArrayList<Integer>();
-	static ArrayList<Integer> sindromes_peso1 = new ArrayList<Integer>();
-	static ArrayList<Integer> sindromes_peso2 = new ArrayList<Integer>();
+	//Arrays donde se guardan los resultados de multiplicar cada síndrome por la matriz H
+	static ArrayList<Integer> sindromes_0 = new ArrayList<Integer>();
+	static ArrayList<Integer> sindromes_1 = new ArrayList<Integer>();
+	static ArrayList<Integer> sindromes_2 = new ArrayList<Integer>();
+	static ArrayList<Integer> sindromes_3 = new ArrayList<Integer>();
+	static ArrayList<Integer> sindromes_4 = new ArrayList<Integer>();
+	static ArrayList<Integer> sindromes_5 = new ArrayList<Integer>();
+	static ArrayList<Integer> sindromes_6 = new ArrayList<Integer>();
+	static ArrayList<Integer> sindromes_7 = new ArrayList<Integer>();
+	static ArrayList<Integer> sindromes_8 = new ArrayList<Integer>();
 	
 	//Matriz binaria y limpia(despues de quitar los q tienen peso > 2)
 	static int [][] matrizBinaria;
@@ -107,126 +129,6 @@ public class Ej3B {
 		obtenerCodigoFinal();
 		decodificar();
 	}
-
-	
-	/**
-	 * Método que coge el array corregido y lo trocea y decodifica
-	 */
-	private static void decodificar() {
-		// TODO Auto-generated method stub
-		//Como en este caso la identidad es de tamaño matrizGeneradora.length, cogemos los matrizGeneradora.length primeros elementos
-		int[] bloque= new int[matrizGeneradora[0].length];
-		int i=0;
-		while(i+matrizGeneradora[0].length<=codigoFinal.size()) {
-			for(int j=0 ; j<matrizGeneradora[0].length; j++) {
-				bloque[j]=codigoFinal.get(i+j);
-			}
-			
-			for(int j=0 ; j<matrizGeneradora.length; j++) {
-				decodificacion.add(bloque[j]);
-			}
-			
-			i=i+matrizGeneradora[0].length;
-		}
-		
-		//Decodificamos las palabras
-		i=0;
-		int k=0;
-		int [] arrayCodigoLetra = new int [longitudAlfabeto2];
-		char [] arrayLetras = new char [decodificacion.size()/longitudAlfabeto2];
-		while(i+7<=decodificacion.size()) {
-			//Con este bucle for conseguimos los matrizGeneradora.length elementos para conseguir el símbolo buscado.
-			for(int j=0 ; j<longitudAlfabeto2; j++) {
-				arrayCodigoLetra[j] = decodificacion.get(i+j);
-			}
-			//Llamamos al método para traducir la letra y la añadimos a un array
-			arrayLetras[k] = traducirLetra(arrayCodigoLetra, alf);
-			k++;
-			i = i+7;
-		}
-		
-		ArrayList<Character> texto= new ArrayList<Character>();
-		
-		//Pasamos el array a un arraylist para eliminar los espacios dobles
-		for(int j=0 ; j<arrayLetras.length; j++) {
-			texto.add(arrayLetras[j]);
-		}
-		
-		//Sustituimos los espacios seguidos por saltos de linea
-		for(int j=0 ; j<texto.size(); j++) {
-			if(texto.get(j)==' ' && texto.get(j+1)==' ') {
-				texto.set(j, '\n');
-				texto.remove(j+1);
-			}
-		}
-		
-		System.out.println("Mensaje decodificado: ");
-		for(int j=0 ; j<texto.size(); j++) {
-			System.out.print(texto.get(j));
-		}
-		
-	}
-
-	/**
-	 * Método que hace el producto de la matriz H por cada permutación
-	 */
-	private static void productoPermutaciones() {
-		int[][] tmp= new int[matrizGeneradora[0].length][1];
-		int i=0;
-		//Introducimos las permutaciones para multiplicarlas por H
-		//Estas son las permutaciones con peso 0
-		while(i+matrizGeneradora[0].length<=combPeso0.size()) {
-			for(int j=0 ; j<matrizGeneradora[0].length; j++) {
-				tmp[j][0]=combPeso0.get(i+j);
-			}
-			int [][] producto= multiplicaPermutaciones(tmp, H);
-			
-			for(i=0;i<producto.length;i++) {
-				for(int j=0 ; j<producto[0].length; j++) {
-					sindromes_peso0.add(producto[i][j]);
-				}
-			}
-			
-			i=i+matrizGeneradora[0].length;
-		}
-		
-		i=0;
-		//Estas son las permutaciones con peso 1
-		while(i+matrizGeneradora[0].length<=combPeso1.size()) {
-			for(int j=0 ; j<matrizGeneradora[0].length; j++) {
-				tmp[j][0]=combPeso1.get(i+j);
-			}
-			
-			int [][] producto= multiplicaPermutaciones(tmp, H);
-			
-			for(int k=0;k<producto.length;k++) {
-				for(int l=0 ; l<producto[0].length; l++) {
-					sindromes_peso1.add(producto[k][l]);
-				}
-			}
-			
-			i=i+matrizGeneradora[0].length;
-		}
-		
-		i=0;
-		
-		//Estas son las permutaciones con peso 2
-		while(i+matrizGeneradora[0].length<=combPeso2.size()) {
-			for(int j=0 ; j<matrizGeneradora[0].length; j++) {
-				tmp[j][0]=combPeso2.get(i+j);
-			}
-			
-			int [][] producto= multiplicaPermutaciones(tmp, H);
-			
-			for(int k=0;k<producto.length;k++) {
-				for(int l=0 ; l<producto[0].length; l++) {
-					sindromes_peso2.add(producto[k][l]);
-				}
-			}
-			
-			i=i+matrizGeneradora[0].length;
-		}
-	}
 	
 	/**
 	 * Método que devuelve la longitud de la palabra de la fuente
@@ -242,24 +144,229 @@ public class Ej3B {
 	 * Método que calcula y almacena las permutaciones
 	 */
 	private static void permutaciones() {
+		/*En cada bucle se generan las permutaciones correspondientes a cada array
+		 * declarado arriba (combinacion0, combinacion1, ...)
+		 */
 		do {
-            for(int i=0;i<peso0.length;i++) {
-            	combPeso0.add(peso0[i]);
+            for(int i=0;i<combinacion0.length;i++) {
+            	combinaciones0.add(combinacion0[i]);
             }
-        } while (nextPermutation(peso0));
+        } while (nextPermutation(combinacion0));
 		
 		do {
-			for(int i=0;i<peso1.length;i++) {
-            	combPeso1.add(peso1[i]);
+			for(int i=0;i<combinacion1.length;i++) {
+            	combinaciones1.add(combinacion1[i]);
             }
-        } while (nextPermutation(peso1));
+        } while (nextPermutation(combinacion1));
 		
 		do {
-			for(int i=0;i<peso2.length;i++) {
-            	combPeso2.add(peso2[i]);
+			for(int i=0;i<combinacion2.length;i++) {
+            	combinaciones2.add(combinacion2[i]);
             }
-        } while (nextPermutation(peso2));
+        } while (nextPermutation(combinacion2));
+		do {
+			for(int i=0;i<combinacion3.length;i++) {
+            	combinaciones3.add(combinacion3[i]);
+            }
+        } while (nextPermutation(combinacion3));
+		do {
+			for(int i=0;i<combinacion4.length;i++) {
+            	combinaciones4.add(combinacion4[i]);
+            }
+        } while (nextPermutation(combinacion4));
+		do {
+			for(int i=0;i<combinacion5.length;i++) {
+            	combinaciones5.add(combinacion5[i]);
+            }
+        } while (nextPermutation(combinacion5));
+		do {
+			for(int i=0;i<combinacion6.length;i++) {
+            	combinaciones6.add(combinacion6[i]);
+            }
+        } while (nextPermutation(combinacion6));
+		do {
+			for(int i=0;i<combinacion7.length;i++) {
+            	combinaciones7.add(combinacion7[i]);
+            }
+        } while (nextPermutation(combinacion7));
+		do {
+			for(int i=0;i<combinacion8.length;i++) {
+            	combinaciones8.add(combinacion8[i]);
+            }
+        } while (nextPermutation(combinacion8));
 		
+	}
+
+	/**
+	 * Método que hace el producto de la matriz H por cada permutación array por array
+	 * cada bucle while realiza el producto en un array de combinaciones y almacena el resultado en los arrays
+	 * sindromes_X correspondientes
+	 */
+	private static void productoPermutaciones() {
+		int[][] tmp= new int[matrizGeneradora[0].length][1];
+		int i=0;
+		//Introducimos las permutaciones para multiplicarlas por H
+		//Estas son las permutaciones 0
+		while(i+matrizGeneradora[0].length<=combinaciones0.size()) {
+			for(int j=0 ; j<matrizGeneradora[0].length; j++) {
+				tmp[j][0]=combinaciones0.get(i+j);
+			}
+			int [][] producto= multiplicaPermutaciones(tmp, H);
+			
+			for(i=0;i<producto.length;i++) {
+				for(int j=0 ; j<producto[0].length; j++) {
+					sindromes_0.add(producto[i][j]);
+				}
+			}
+			
+			i=i+matrizGeneradora[0].length;
+		}
+		
+		i=0;
+		//Estas son las permutaciones 1
+		while(i+matrizGeneradora[0].length<=combinaciones1.size()) {
+			for(int j=0 ; j<matrizGeneradora[0].length; j++) {
+				tmp[j][0]=combinaciones1.get(i+j);
+			}
+			
+			int [][] producto= multiplicaPermutaciones(tmp, H);
+			
+			for(int k=0;k<producto.length;k++) {
+				for(int l=0 ; l<producto[0].length; l++) {
+					sindromes_1.add(producto[k][l]);
+				}
+			}
+			
+			i=i+matrizGeneradora[0].length;
+		}
+		
+		i=0;
+		
+		//Estas son las permutaciones 2
+		while(i+matrizGeneradora[0].length<=combinaciones2.size()) {
+			for(int j=0 ; j<matrizGeneradora[0].length; j++) {
+				tmp[j][0]=combinaciones2.get(i+j);
+			}
+			
+			int [][] producto= multiplicaPermutaciones(tmp, H);
+			
+			for(int k=0;k<producto.length;k++) {
+				for(int l=0 ; l<producto[0].length; l++) {
+					sindromes_2.add(producto[k][l]);
+				}
+			}
+			
+			i=i+matrizGeneradora[0].length;
+		}
+		
+		i=0;
+		
+		//Estas son las permutaciones 3
+		while(i+matrizGeneradora[0].length<=combinaciones3.size()) {
+			for(int j=0 ; j<matrizGeneradora[0].length; j++) {
+				tmp[j][0]=combinaciones3.get(i+j);
+			}
+			
+			int [][] producto= multiplicaPermutaciones(tmp, H);
+			
+			for(int k=0;k<producto.length;k++) {
+				for(int l=0 ; l<producto[0].length; l++) {
+					sindromes_3.add(producto[k][l]);
+				}
+			}
+			
+			i=i+matrizGeneradora[0].length;
+		}
+		
+		i=0;
+		//Estas son las permutaciones 4
+		while(i+matrizGeneradora[0].length<=combinaciones4.size()) {
+			for(int j=0 ; j<matrizGeneradora[0].length; j++) {
+				tmp[j][0]=combinaciones4.get(i+j);
+			}
+			
+			int [][] producto= multiplicaPermutaciones(tmp, H);
+			
+			for(int k=0;k<producto.length;k++) {
+				for(int l=0 ; l<producto[0].length; l++) {
+					sindromes_4.add(producto[k][l]);
+				}
+			}
+			
+			i=i+matrizGeneradora[0].length;
+		}
+		
+		i=0;
+		//Estas son las permutaciones 5
+		while(i+matrizGeneradora[0].length<=combinaciones5.size()) {
+			for(int j=0 ; j<matrizGeneradora[0].length; j++) {
+				tmp[j][0]=combinaciones5.get(i+j);
+			}
+			
+			int [][] producto= multiplicaPermutaciones(tmp, H);
+			
+			for(int k=0;k<producto.length;k++) {
+				for(int l=0 ; l<producto[0].length; l++) {
+					sindromes_5.add(producto[k][l]);
+				}
+			}
+			
+			i=i+matrizGeneradora[0].length;
+		}
+		
+		i=0;
+		//Estas son las permutaciones 6
+		while(i+matrizGeneradora[0].length<=combinaciones6.size()) {
+			for(int j=0 ; j<matrizGeneradora[0].length; j++) {
+				tmp[j][0]=combinaciones6.get(i+j);
+			}
+			
+			int [][] producto= multiplicaPermutaciones(tmp, H);
+			
+			for(int k=0;k<producto.length;k++) {
+				for(int l=0 ; l<producto[0].length; l++) {
+					sindromes_6.add(producto[k][l]);
+				}
+			}
+			
+			i=i+matrizGeneradora[0].length;
+		}
+		
+		i=0;
+		//Estas son las permutaciones  7
+		while(i+matrizGeneradora[0].length<=combinaciones7.size()) {
+			for(int j=0 ; j<matrizGeneradora[0].length; j++) {
+				tmp[j][0]=combinaciones7.get(i+j);
+			}
+			
+			int [][] producto= multiplicaPermutaciones(tmp, H);
+			
+			for(int k=0;k<producto.length;k++) {
+				for(int l=0 ; l<producto[0].length; l++) {
+					sindromes_7.add(producto[k][l]);
+				}
+			}
+			
+			i=i+matrizGeneradora[0].length;
+		}
+		
+		i=0;
+		//Estas son las permutaciones 8
+		while(i+matrizGeneradora[0].length<=combinaciones8.size()) {
+			for(int j=0 ; j<matrizGeneradora[0].length; j++) {
+				tmp[j][0]=combinaciones8.get(i+j);
+			}
+			
+			int [][] producto= multiplicaPermutaciones(tmp, H);
+			
+			for(int k=0;k<producto.length;k++) {
+				for(int l=0 ; l<producto[0].length; l++) {
+					sindromes_8.add(producto[k][l]);
+				}
+			}
+			
+			i=i+matrizGeneradora[0].length;
+		}
 	}
 	
 	/**
@@ -314,6 +421,8 @@ public class Ej3B {
 		int j=0;
 		int[][] arrayCod = new int [matrizGeneradora[0].length][1];
 		int[] bloque= new int[matrizGeneradora[0].length];
+		
+		//Cogemos bloques de 12 digitos
 		while(i+matrizGeneradora[0].length<=lista.length) {
 			for(j=0 ; j<matrizGeneradora[0].length; j++) {
 				//Dividimos en bloques de matrizGeneradora[0].length dígitos
@@ -322,9 +431,11 @@ public class Ej3B {
 				bloque[j]=lista[i+j];
 				
 			}
+			
 			//Hallamos el síndrome del bloque extraído, almacenandolo en tmp
 			//Dentro de tmp hay 9 digitos que corresponden al producto de H*arrayCod (Bloque de matrizGeneradora[0].length digitos)
 			ArrayList<Integer> tmp= multiplicaPalabras(arrayCod, H);
+			
 			
 			/*
 			 * Este valor determina si la palabra tiene error o no, si devuelve -1 en el texto a desencriptar
@@ -346,6 +457,7 @@ public class Ej3B {
 				}
 			}
 			
+			//Pasamos al siguiente bloque
 			i+=matrizGeneradora[0].length;
 		}
 		
@@ -365,6 +477,79 @@ public class Ej3B {
 		}
 	}
 	
+	
+	/**
+	 * Método que coge el array corregido, lo trocea y decodifica
+	 */
+	private static void decodificar() {
+		// TODO Auto-generated method stub
+		//Como en este caso la identidad es de tamaño 3, cogemos los 3 primeros elementos
+		int[] bloque= new int[matrizGeneradora[0].length];
+		int i=0;
+		while(i+matrizGeneradora[0].length<=codigoFinal.size()) {
+			//Almacenamos los 12 primeros
+			for(int j=0 ; j<matrizGeneradora[0].length; j++) {
+				bloque[j]=codigoFinal.get(i+j);
+			}
+			
+			//Añadimos solo los 3 primeros eliminando así el ruido
+			for(int j=0 ; j<matrizGeneradora.length; j++) {
+				decodificacion.add(bloque[j]);
+			}
+			
+			//Pasamos al siguiente bloque
+			i=i+matrizGeneradora[0].length;
+		}
+		
+		//Decodificamos las palabras
+		i=0;
+		int k=0;
+		
+		//Array para guardar los bloques y decodificar
+		int [] arrayCodigoLetra = new int [longitudAlfabeto2];
+		
+		//Array donde guardaremos una a una las letras decodificadas
+		char [] arrayLetras = new char [decodificacion.size()/longitudAlfabeto2];
+		
+		
+		while(i+longitudAlfabeto2<=decodificacion.size()) {
+			//Con este bucle for conseguimos los 5 elementos de cada bloque para conseguir el símbolo buscado.
+			for(int j=0 ; j<longitudAlfabeto2; j++) {
+				arrayCodigoLetra[j] = decodificacion.get(i+j);
+			}
+			
+			//Llamamos al método para traducir la letra y la añadimos a un array
+			arrayLetras[k] = traducirLetra(arrayCodigoLetra, alf);
+			k++;
+			i = i+longitudAlfabeto2;
+		}
+		
+		ArrayList<Character> texto= new ArrayList<Character>();
+		
+		//Pasamos el array a un arraylist para eliminar los espacios dobles
+		for(int j=0 ; j<arrayLetras.length; j++) {
+			texto.add(arrayLetras[j]);
+		}
+	
+		//Sustituimos los espacios seguidos por saltos de linea
+		for(int j=0 ; j<texto.size(); j++) {
+			if(j<texto.size()-1) {
+				if(texto.get(j)==' ' && texto.get(j+1)==' ') {
+					texto.set(j, '\n');
+					texto.remove(j+1);
+				}
+			}
+		}
+		
+		//Imprimimos la solución final
+		System.out.println("Mensaje decodificado: ");
+		for(int j=0 ; j<texto.size(); j++) {
+			System.out.print(texto.get(j));
+		}
+		
+	}
+	
+	
 	/**
 	 * Método para restar el error a la palabra código
 	 * @param arrayCod
@@ -374,10 +559,18 @@ public class Ej3B {
 	private static int[] restarError(int[] arrayCod, int[] error_patron) {
 		// TODO Auto-generated method stub
 		int[] retorno= new int[arrayCod.length];
+		//Resta coordenada a coordenada ambos arrays y devuelve el resultado
 		for(int i=0;i<arrayCod.length;i++) {
 			int x= arrayCod[i];
 			int y= error_patron[i];
-			retorno[i]= Math.abs(x-y);
+			int resultado= x-y;
+			if(resultado==-2) {
+				resultado=1;
+			}
+			else if(resultado==-1) {
+				resultado=2;
+			}
+			retorno[i]= resultado;
 		}
 		return retorno;
 		
@@ -385,6 +578,8 @@ public class Ej3B {
 
 	/**
 	 * Método en el que comparamos el síndrome de la palabra con los síndromes de las permutaciones
+	 * En cada bucle while compara uno de los arrays con las combinaciones de los síndromes multiplicados
+	 * por la matriz de control (sindromes_0, sindromes_1, ...)
 	 * @param tmp síndrome de la palabra correspondiente
 	 * @return posición del error patrón para extraerlo
 	 */
@@ -397,19 +592,18 @@ public class Ej3B {
 		int contador=0;
 		ArrayList<Integer> bloque= new ArrayList<Integer>();
 		int[] retorno= new int[matrizGeneradora[0].length];
-
-		//Realizamos este proceso con los 3 arrays de permutaciones
-		while(i<sindromes_peso0.size()) {
+		//Realizamos este proceso con los arrays de permutaciones
+		while(i<sindromes_0.size()) {
 			//Extraemos los errores de las permutaciones para comparar si es igual al del parámetro
 			for(int k=0; k<9; k++){
-				bloque.add(sindromes_peso0.get(i+k));
+				bloque.add(sindromes_0.get(i+k));
 			}
 			
 			if(tmp.equals(bloque)) {
 				//Almacenamos en un int el error patron correspondiente a devolver
 				int pos= ((i)/9)*matrizGeneradora[0].length;
 				for(int k=0;k<matrizGeneradora[0].length;k++){
-					retorno[k]=combPeso0.get(k);
+					retorno[k]=combinaciones0.get(k);
 				}
 				return retorno;
 			}
@@ -421,18 +615,18 @@ public class Ej3B {
 		}
 		
 		bloque.clear();
-		contador=0;
+		i=0;
 		
-		while(i<sindromes_peso1.size()) {
+		while(i<sindromes_1.size()) {
 			for(int k=0; k<9; k++){
-				bloque.add(sindromes_peso1.get(i+k));
+				bloque.add(sindromes_1.get(i+k));
 			}
 			
 			if(tmp.equals(bloque)) {
-				//Almacenamos en un int el error patron correspondiente a devolver
+				//Almacenamos el error patron correspondiente a devolver en los arrays de permutaciones
 				int pos= ((i)/9)*matrizGeneradora[0].length;
 				for(int k=0;k<matrizGeneradora[0].length;k++){
-					retorno[k]=combPeso1.get(pos+k);
+					retorno[k]=combinaciones1.get(pos+k);
 				}
 				
 				return retorno;
@@ -443,19 +637,154 @@ public class Ej3B {
 		}
 		
 		bloque.clear();
-		contador=0;
+		i=0;
 		
-		while(i<sindromes_peso2.size()) {
+		while(i<sindromes_2.size()) {
 			for(int k=0; k<9; k++){
-				bloque.add(sindromes_peso2.get(i+k));
+				bloque.add(sindromes_2.get(i+k));
 			}
 			
 			if(tmp.equals(bloque)) {
-				//Almacenamos en un int el error patron correspondiente a devolver
+				//Almacenamos el error patron correspondiente a devolver en los arrays de permutaciones
 				int pos= ((i)/9)*matrizGeneradora[0].length;
 				for(int k=0;k<matrizGeneradora[0].length;k++){
-					retorno[k]=combPeso2.get(pos+k);
+					retorno[k]=combinaciones2.get(pos+k);
 				}
+				return retorno;
+			}
+			bloque.clear();
+			contador++;
+			i+=tmp.size();			
+		}
+		
+		bloque.clear();
+		i=0;
+		
+		while(i<sindromes_3.size()) {
+			for(int k=0; k<9; k++){
+				bloque.add(sindromes_3.get(i+k));
+			}
+			
+			if(tmp.equals(bloque)) {
+				//Almacenamos el error patron correspondiente a devolver en los arrays de permutaciones
+				int pos= ((i)/9)*matrizGeneradora[0].length;
+				for(int k=0;k<matrizGeneradora[0].length;k++){
+					retorno[k]=combinaciones3.get(pos+k);
+				}
+				return retorno;
+			}
+			bloque.clear();
+			contador++;
+			i+=tmp.size();			
+		}
+		
+		bloque.clear();
+		i=0;
+		
+		//4
+		while(i<sindromes_4.size()) {
+			for(int k=0; k<9; k++){
+				bloque.add(sindromes_4.get(i+k));
+			}
+			
+			if(tmp.equals(bloque)) {
+				//Almacenamos el error patron correspondiente a devolver en los arrays de permutaciones
+				int pos= ((i)/9)*matrizGeneradora[0].length;
+				for(int k=0;k<matrizGeneradora[0].length;k++){
+					retorno[k]=combinaciones4.get(pos+k);
+				}
+				
+				return retorno;
+			}
+			bloque.clear();
+			contador++;
+			i+=tmp.size();			
+		}
+		
+		bloque.clear();
+		i=0;
+		
+		//5
+		while(i<sindromes_5.size()) {
+			for(int k=0; k<9; k++){
+				bloque.add(sindromes_5.get(i+k));
+			}
+			
+			if(tmp.equals(bloque)) {
+				//Almacenamos el error patron correspondiente a devolver en los arrays de permutaciones
+				int pos= ((i)/9)*matrizGeneradora[0].length;
+				for(int k=0;k<matrizGeneradora[0].length;k++){
+					retorno[k]=combinaciones5.get(pos+k);
+				}
+				
+				return retorno;
+			}
+			bloque.clear();
+			contador++;
+			i+=tmp.size();			
+		}
+		
+		bloque.clear();
+		i=0;
+		
+		//6
+		while(i<sindromes_6.size()) {
+			for(int k=0; k<9; k++){
+				bloque.add(sindromes_6.get(i+k));
+			}
+			
+			if(tmp.equals(bloque)) {
+				//Almacenamos el error patron correspondiente a devolver en los arrays de permutaciones
+				int pos= ((i)/9)*matrizGeneradora[0].length;
+				for(int k=0;k<matrizGeneradora[0].length;k++){
+					retorno[k]=combinaciones6.get(pos+k);
+				}
+				
+				return retorno;
+			}
+			bloque.clear();
+			contador++;
+			i+=tmp.size();			
+		}
+		
+		bloque.clear();
+		i=0;
+		
+		//7
+		while(i<sindromes_7.size()) {
+			for(int k=0; k<9; k++){
+				bloque.add(sindromes_7.get(i+k));
+			}
+
+			if(tmp.equals(bloque)) {
+				//Almacenamos el error patron correspondiente a devolver en los arrays de permutaciones
+				int pos= ((i)/9)*matrizGeneradora[0].length;
+				for(int k=0;k<matrizGeneradora[0].length;k++){
+					retorno[k]=combinaciones7.get(pos+k);
+				}
+				
+				return retorno;
+			}
+			bloque.clear();
+			contador++;
+			i+=tmp.size();			
+		}
+		
+		bloque.clear();
+		i=0;
+		
+		while(i<sindromes_8.size()) {
+			for(int k=0; k<9; k++){
+				bloque.add(sindromes_8.get(i+k));
+			}
+			
+			if(tmp.equals(bloque)) {
+				//Almacenamos el error patron correspondiente a devolver en los arrays de permutaciones
+				int pos= ((i)/9)*matrizGeneradora[0].length;
+				for(int k=0;k<matrizGeneradora[0].length;k++){
+					retorno[k]=combinaciones8.get(pos+k);
+				}
+				
 				return retorno;
 			}
 			bloque.clear();
@@ -473,6 +802,7 @@ public class Ej3B {
 	public static int[][] matrizTraspuestaYNegativa(int[][] original) {
 		int[][] traspuesta= new int[original[0].length][original.length];
 		
+		//Calculamos la matriz traspuesta de A
 		for (int x = 0; x < original.length; x++){
 			for (int y = 0; y < original[x].length; y++){
 				traspuesta[y][x] = original[x][y];
@@ -494,6 +824,7 @@ public class Ej3B {
 		
 		int [][] identidad= new int[traspuesta.length][traspuesta.length];
 		
+		//Hallamos la identidad correspondiente
 		for (int x = 0; x < identidad.length; x++){
 			for (int y = 0; y < identidad.length; y++){
 				if(x==y) {
@@ -507,12 +838,14 @@ public class Ej3B {
 		
 		int[][] H= new int[traspuesta.length][identidad[0].length+traspuesta[0].length];
 		
+		//Añadimos A traspuesta y negativa a H
 		for(int i=0;i<traspuesta.length;i++) {
 			for(int j=0;j<traspuesta[0].length;j++) {
 				H[i][j]=traspuesta[i][j];
 			}
 		}
 		
+		//Añadimos la identidad a H
 		for(int i=0;i<identidad.length;i++) {
 			for(int j=0;j<identidad[0].length;j++) {
 				H[i][j+traspuesta[0].length]=identidad[i][j];
@@ -546,10 +879,10 @@ public class Ej3B {
 	              for(int k=0;k<o;k++){
 	                  a=a+H[i][k]*arrayCod[k][j];
 	              }
-	              C.add(a%2);
+	              C.add(a%base);
 	              
 	              //Añadimos el contenido al arraylist de sindromes
-	              sindromes_palabras.add(a%2);
+	              sindromes_palabras.add(a%base);
 	            }
 
 	         }
@@ -583,7 +916,7 @@ public class Ej3B {
 	              for(int k=0;k<o;k++){
 	                  a=a+H[i][k]*arrayCod[k][j];
 	              }
-	              C[i][j]=a%2;
+	              C[i][j]=a%3;
 	              
 	              //Añadimos el contenido al arraylist de sindromes
 	              //sindromes_palabras.add(a%2);
@@ -596,7 +929,7 @@ public class Ej3B {
 	
 	/**
 	 * 
-	 * Método para traducir los símbolos en binario a texto plano
+	 * Método para traducir los símbolos en ternario a texto plano
 	 * 
 	 * @param codigoLetra
 	 * @param alf2
@@ -608,26 +941,35 @@ public class Ej3B {
 		int potencia = 0;
 		
 		for(int i=codigoLetra.length-1 ; i>=0 ; i--){
-			if(codigoLetra[i] == 1){
-				sumaCodigo = sumaCodigo + calcularPotencia(potencia);
+			if(codigoLetra[i] ==1){
+				sumaCodigo = sumaCodigo + calcularPotencia(potencia, 1);
+			}
+			else if(codigoLetra[i] ==2){
+				sumaCodigo = sumaCodigo + calcularPotencia(potencia, 2);
 			}
 			potencia++;
 		}
-		
 		return alf[sumaCodigo];
 	}
 	
-	public static int calcularPotencia(int potencia){
-		int potenciaDos = 1;
+	public static int calcularPotencia(int potencia, int valor){
 		
 		if(potencia != 0){
-			for(int i=0 ; i<potencia ; i++){
-				potenciaDos = potenciaDos * 2;
+			if(valor==1) {
+				for(int i=0 ; i<potencia ; i++){
+					valor = valor * 3;
+				}
+				return valor;
 			}
-			return potenciaDos;
+			else {
+				for(int i=0 ; i<potencia ; i++){
+					valor = valor * 3;
+				}
+				return valor;
+			}
 		}
 		
-		return potenciaDos;
+		return valor;
 	}
 
 }
