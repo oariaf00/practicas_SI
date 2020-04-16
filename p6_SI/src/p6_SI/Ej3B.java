@@ -460,21 +460,6 @@ public class Ej3B {
 			//Pasamos al siguiente bloque
 			i+=matrizGeneradora[0].length;
 		}
-		
-		/*
-		 * En las siguientes líneas comprobamos que no haya cola dentro del código que nos han dado para
-		 * decodificar. De ser así cogemos los dígitos que constituyan la cola y los añadimos al arraylist
-		 * con el código final a descifrar
-		 */
-		
-		int mod = lista.length%matrizGeneradora[0].length;
-		if(mod>0) {
-			int [] cola = new int [mod];
-			for(int k=i; k<lista.length; k++){
-				cola[k-i] = lista[k];
-				codigoFinal.add(cola[k-i]);
-			}
-		}
 	}
 	
 	
@@ -499,6 +484,21 @@ public class Ej3B {
 			
 			//Pasamos al siguiente bloque
 			i=i+matrizGeneradora[0].length;
+		}
+		
+		/*
+		 * En las siguientes líneas comprobamos que no haya cola dentro del código que nos han dado para
+		 * decodificar. De ser así cogemos los dígitos que constituyan la cola y los añadimos al arraylist
+		 * con el código final a descifrar
+		 */
+		
+		int mod = lista.length%matrizGeneradora[0].length;
+		if(mod>0) {
+			int [] cola = new int [mod];
+			for(int k=i; k<lista.length; k++){
+				cola[k-i] = lista[k];
+				decodificacion.add(cola[k-i]);
+			}
 		}
 		
 		//Decodificamos las palabras

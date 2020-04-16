@@ -16,13 +16,22 @@ import p6_SI.ListaArboles;
 
 public class Ej1 {
 	
-	static String texto = importarTexto();
+	static String texto ="Al pie del murallón los pasos se hundían ya  " + 
+			"en la arena, y por el aire negro, tal vagos fantasmas,  " + 
+			"surgieron las velas de las barcas pesqueras. Allí es-  " + 
+			"taba él: en lo oscuro, un lamento de gozo o de pena;  " + 
+			"una voz insomne llamando nadie sabe qué o quién  " + 
+			"en la vastedad sin nombre de la noche.  " + 
+			"(OCNOS, Luis Cernuda, 1902-1963)";
+	
 	static char [] arrayTexto = texto.toCharArray();
 	public void principal() {
 		// TODO Auto-generated method stub
-		
+		for(int i=0;i<arrayTexto.length;i++) {
+			System.out.print(arrayTexto[i]);
+		}
+		System.out.println();
 		//EJERCICIO 1
-		System.out.println("Número de símbolos: "+texto.length());
 		double entropia= ej1(arrayTexto);
 		System.out.println("H(f)="+entropia);
 		
@@ -76,23 +85,24 @@ public class Ej1 {
 		double logTotal = Math.log((double)arrayTexto.length)/Math.log(2);
 		double sumatorio = 0;
 		double aux=0;
-		double resultadoFinal;
+		double resultadoFinal = 0;
 		
 		/*
 		 * Método para calcular la entropía
 		 */
 		
-		for(int l=0; l<arrayFrecu.length; l++) {
-			aux = Math.log(arrayFrecu[l])/Math.log(2);
-			aux = aux * arrayFrecu[l];
-			sumatorio = sumatorio + aux;
+		for(int l=0; l<probabilidad.length; l++) {
+			aux = Math.log((1/probabilidad[l]))/Math.log(2);
+			sumatorio = aux * probabilidad[l];
+			resultadoFinal+=sumatorio;
 			aux=0;
+			sumatorio=0;
 		}
 		
-		double segundaParte = (double)1/(double)arrayTexto.length;
-		segundaParte = segundaParte * sumatorio;
-		
-		resultadoFinal = logTotal - segundaParte;
+//		double segundaParte = (double) 1/(double)arrayTexto.length;
+//		segundaParte = segundaParte * sumatorio;
+//		
+//		resultadoFinal = logTotal - segundaParte;
 		
 		return resultadoFinal;
 	}
