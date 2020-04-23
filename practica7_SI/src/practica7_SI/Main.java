@@ -57,7 +57,6 @@ public class Main {
 		for(int i=0;i<clave.length();i++) {
 			int pos= buscaNumero(clave.charAt(i));
 			claveNumerica[i]=pos;
-			//System.out.println(pos);
 		}
 		
 		return claveNumerica;
@@ -94,7 +93,7 @@ public class Main {
 			sol+=letra;
 		}
 		
-ArrayList<Character> texto= new ArrayList<Character>();
+		ArrayList<Character> texto= new ArrayList<Character>();
 		
 		//Pasamos el array a un arraylist para eliminar los espacios dobles
 			for(int k=0 ; k<sol.length(); k++) {
@@ -210,6 +209,99 @@ ArrayList<Character> texto= new ArrayList<Character>();
 	
 	private static void ej3() {
 		// TODO Auto-generated method stub
+		
+		//PRIMERO APLICAMOS LA DECODIFICACION DE VIGENERE
+		//Introducimos los valores numéricos de la tabla en la primera fila
+				for(int i=0;i<texto_03.length();i++) {
+					char tmp= texto_03.charAt(i);
+					int pos= buscaNumero(tmp);
+					
+					//Si tenemos posición válida
+					tabla3[0][i]= pos;
+				}
+				
+				//Metemos en bucle los numeros de la clave hasta rellenar la fila
+				int j=0;
+				for(int i=0;i<tabla3[0].length;i++) {
+					tabla3[1][i]=claveNumerica[j];
+					j++;
+					if(j>=claveNumerica.length) {
+						j=0;
+					}
+				}
+				
+				/*
+				 * Ahora procedemos a restar los valores de las dos primeras filas para obtener
+				 * los valores de los caracteres a traducir
+				 */
+				
+				String sol= "";
+				
+				for(int i=0;i<texto_03.length();i++) {
+					int valor= tabla3[0][i]-tabla3[1][i];
+					if(valor<0) {
+						int tmp= Math.abs(valor);
+						valor= alf.length-tmp;
+					}
+					String letra= String.valueOf(alf[valor]);
+					sol+=letra;
+				}
+				
+				//System.out.println(sol);
+				
+				//AHORA APLICAMOS LA DECODIFICACION MONO ALFABÉTICA
+				
+				/*
+				 * Buscamos el número equivalente en función de la fórmula de la sustitución
+				 * mono alfabética de la que disponemos
+				*/
+				
+				for(int i=0;i<sol.length();i++) {
+					char tmp= sol.charAt(i);
+					int pos= buscaNumero(tmp);
+					
+					//Si tenemos posición válida
+					int a2= calcularInverso(a);
+					
+					//Pasamos A a negativo
+					int x= alf.length-a2;
+					int b2= (x*b)%alf.length;
+					
+					int valor= (a2*pos+b2)%alf.length;
+					tabla1[0][i]= valor;
+				}
+				
+				//Creamos un string para descifrar el mensaje
+				String solucion ="";
+				
+				for(int k=0;k<sol.length();k++) {
+					int pos= tabla1[0][k];
+					String letra= String.valueOf(alf[pos]);
+					solucion+=letra;
+				}
+				
+				ArrayList<Character> texto= new ArrayList<Character>();
+				
+				//Pasamos el array a un arraylist para eliminar los espacios dobles
+				for(int k=0 ; k<solucion.length(); k++) {
+					texto.add(solucion.charAt(k));
+				}
+				
+				//Sustituimos los espacios seguidos por saltos de linea
+				for(int k=0 ; k<texto.size(); k++) {
+					if(k<texto.size()-1) {
+						if(texto.get(k)==' ' && texto.get(k+1)==' ') {
+							texto.set(k, '\n');
+							texto.remove(k+1);
+						}
+					}
+				}
+					
+				//Imprimimos la solución final
+				System.out.println("Mensaje decodificado: ");
+				for(int k=0 ; k<texto.size(); k++) {
+					System.out.print(texto.get(k));
+				}
 		
 	}
 }
